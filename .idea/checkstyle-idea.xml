@@ -12,7 +12,7 @@
       <list>
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
-        <ConfigurationLocation id="5a1a366a-1558-4b55-af1b-799d1cfa9abf" type="LOCAL_FILE" scope="All" description="COMP 2522 Checkstyle">C:/COMP-2522-Checkstyle.xml</ConfigurationLocation>
+        <ConfigurationLocation id="5a1a366a-1558-4b55-af1b-799d1cfa9abf" type="LOCAL_FILE" scope="All" description="COMP 2522 Checkstyle">$PROJECT_DIR$/../../../../COMP-2522-Checkstyle.xml</ConfigurationLocation>
       </list>
     </option>
   </component>
