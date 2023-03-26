@@ -20,10 +20,13 @@ public class PlayerMovement {
     private AnchorPane scene;
     private ArrayList<Node> platforms;
 
-    public void makeMovable(ImageView player, AnchorPane scene, ArrayList<Node> platforms) {
+    private ArrayList<ImageView> monsters;
+
+    public void makeMovable(ImageView player, AnchorPane scene, ArrayList<Node> platforms, ArrayList<ImageView> monsters) {
         this.player = player;
         this.scene = scene;
         this.platforms = platforms;
+        this.monsters = monsters;
         movementSetup();
         timer.start();
     }
@@ -48,6 +51,7 @@ public class PlayerMovement {
                 }
             }
         }
+        // todo: intersect handling for monsters
         player.setLayoutX(player.getLayoutX() + power);
     }
 

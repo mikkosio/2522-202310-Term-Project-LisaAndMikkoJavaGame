@@ -23,6 +23,7 @@ public class Controller implements Initializable {
         level.addPlatform(0, 460, 1600, 100, Color.DODGERBLUE);
         level.addPlatform(900, 400, 60, 60, Color.DODGERBLUE);
         level.addPlatform(640, 400, 60, 60, Color.DODGERBLUE);
+        level.addMonster(MonsterType.MONSTER1, 0, 460);
         return level;
     }
 
@@ -31,6 +32,6 @@ public class Controller implements Initializable {
         Level level1 = createLevel1();
         level1.fillScene(scene);
         player.setViewOrder(-1);
-        playerMovement.makeMovable(player, scene, level1.getPlatforms());
+        playerMovement.makeMovable(player, scene, level1.getPlatforms(), level1.getMonsters());
     }
 }
