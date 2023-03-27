@@ -34,7 +34,6 @@ public class PlayerMovement {
         this.platforms = platforms;
         this.monsters = monsters;
         movementSetup();
-        setPlayerImage.start();
         timer.start();
     }
 
@@ -67,25 +66,22 @@ public class PlayerMovement {
     }
 
     public void jump(int jumpPower) {
-
-    }
-
-    // Update the player image to stay on the playerBox
-    AnimationTimer setPlayerImage = new AnimationTimer() {
-        @Override
-        public void handle(long l) {
-            player.setLayoutY(playerBox.getLayoutY() + 1);
-            if (lookingRight) {
-                player.setLayoutX(playerBox.getLayoutX() - 6);
-            } else {
-                player.setLayoutX(playerBox.getLayoutX() - 18);
+        for (Node platform : platforms) {
+            if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
+                System.out.println(playerBox.getLayoutY());
+                System.out.println(platform.getLayoutY() + platform.getBoundsInParent().getHeight());
+                if (playerBox.getLayoutY() == platform.getLayoutY() + platform.getBoundsInParent().getHeight() - 1) {
+                    return;
+                }
             }
         }
-    };
+        playerBox.setLayoutY(playerBox.getLayoutY() - jumpPower);
+    }
 
     AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long l) {
+            // movement
             if (isSpacePressed) {
                 jump(jumpPower);
             }
@@ -94,6 +90,13 @@ public class PlayerMovement {
             }
             if (isAPressed) {
                 move(playerSpeed, false);
+            }
+            // updating playerImage position to stay on playerBox
+            player.setLayoutY(playerBox.getLayoutY() + 1);
+            if (lookingRight) {
+                player.setLayoutX(playerBox.getLayoutX() - 6);
+            } else {
+                player.setLayoutX(playerBox.getLayoutX() - 18);
             }
         }
     };
