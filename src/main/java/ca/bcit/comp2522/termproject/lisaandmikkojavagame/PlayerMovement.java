@@ -18,6 +18,7 @@ public class PlayerMovement {
     private boolean grounded = false;
     private int playerSpeed = 5;
     private int jumpPower = 3;
+    private int gravity = 1;
     // Image of player
     @FXML
     private ImageView player;
@@ -83,10 +84,24 @@ public class PlayerMovement {
     AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long l) {
-//            // checking if player is on ground
-//            for (Node platform : platforms) {
-//                if ()
-//            }
+            // checking if player is on ground
+            for (Node platform : platforms) {
+                if (playerBox.getTranslateY() + playerBox.getHeight() == platform.getTranslateY()
+                        && playerBox.getTranslateX() < platform.getTranslateX()
+                            + platform.getBoundsInParent().getWidth()
+                        && playerBox.getTranslateX() + playerBox.getWidth() > platform.getTranslateX()) {
+                    grounded = true;
+                    break;
+                } else {
+                    grounded = false;
+                }
+            }
+
+            // gravity
+            if (!grounded) {
+                playerBox.setTranslateY(playerBox.getTranslateY() + gravity);
+            }
+
             // movement
             if (isSpacePressed) {
                 jump(jumpPower);
