@@ -11,27 +11,12 @@ import java.util.ArrayList;
 
 public class Level {
     private ArrayList<Node> platforms;
-
-    public ArrayList<ImageView> getMonsters() {
-        return monsters;
-    }
-
+    private Rectangle playerBox;
     private ArrayList<ImageView> monsters;
-
 
     Level() {
         platforms = new ArrayList<>();
         monsters = new ArrayList<>();
-    }
-
-    public void addMonster(MonsterType monsterType, int xCoordinate, int yCoordinate) {
-        Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/monster1.png"));
-        ImageView monster = new ImageView(image);
-        monster.setLayoutX(xCoordinate);
-        monster.setLayoutY(yCoordinate);
-        monster.setFitHeight(50);
-        monster.setFitWidth(50);
-        monsters.add(monster);
     }
 
     public void addPlatform(int xCoordinate, int yCoordinate, int width, int height, Color color) {
@@ -44,6 +29,30 @@ public class Level {
 
     public ArrayList<Node> getPlatforms() {
         return platforms;
+    }
+
+    public void addMonster(MonsterType monsterType, int xCoordinate, int yCoordinate) {
+        Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/monster1.png"));
+        ImageView monster = new ImageView(image);
+        monster.setLayoutX(xCoordinate);
+        monster.setLayoutY(yCoordinate);
+        monster.setFitHeight(50);
+        monster.setFitWidth(50);
+        monsters.add(monster);
+    }
+
+    public ArrayList<ImageView> getMonsters() {
+        return monsters;
+    }
+
+    public void placePlayer(int xCoordinate, int yCoordinate, int width, int height) {
+        Rectangle player = new Rectangle(width, height);
+        player.setLayoutX(xCoordinate);
+        player.setLayoutY(yCoordinate);
+        playerBox = player;
+    }
+    public Rectangle getPlayerBox() {
+        return playerBox;
     }
 
     public void fillScene(AnchorPane scene) {

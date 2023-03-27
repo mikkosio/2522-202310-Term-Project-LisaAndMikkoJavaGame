@@ -19,11 +19,14 @@ public class Controller implements Initializable {
 
     private Level createLevel1() {
         Level level = new Level();
+        // Place player
+        level.placePlayer(800, 399, 32, 60);
         // Create platforms
         level.addPlatform(0, 460, 1600, 100, Color.DODGERBLUE);
         level.addPlatform(900, 400, 60, 60, Color.DODGERBLUE);
         level.addPlatform(640, 400, 60, 60, Color.DODGERBLUE);
-        level.addMonster(MonsterType.MONSTER1, 0, 460);
+        level.addPlatform(760, 290, 120, 60, Color.DODGERBLUE);
+//        level.addMonster(MonsterType.MONSTER1, 0, 460);
         return level;
     }
 
@@ -32,6 +35,6 @@ public class Controller implements Initializable {
         Level level1 = createLevel1();
         level1.fillScene(scene);
         player.setViewOrder(-1);
-        playerMovement.makeMovable(player, scene, level1.getPlatforms(), level1.getMonsters());
+        playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters());
     }
 }
