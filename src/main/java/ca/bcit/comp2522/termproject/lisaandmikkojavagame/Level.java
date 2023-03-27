@@ -21,8 +21,8 @@ public class Level {
 
     public void addPlatform(int xCoordinate, int yCoordinate, int width, int height, Color color) {
         Rectangle platform = new Rectangle(width, height, color);
-        platform.setLayoutX(xCoordinate);
-        platform.setLayoutY(yCoordinate);
+        platform.setTranslateX(xCoordinate);
+        platform.setTranslateY(yCoordinate);
         platform.setStroke(Color.BLACK);
         platforms.add(platform);
     }
@@ -47,8 +47,8 @@ public class Level {
 
     public void placePlayer(int xCoordinate, int yCoordinate, int width, int height) {
         Rectangle player = new Rectangle(width, height);
-        player.setLayoutX(xCoordinate);
-        player.setLayoutY(yCoordinate);
+        player.setTranslateX(xCoordinate);
+        player.setTranslateY(yCoordinate);
         playerBox = player;
     }
     public Rectangle getPlayerBox() {

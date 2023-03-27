@@ -15,8 +15,9 @@ public class PlayerMovement {
     private boolean isAPressed = false;
     private boolean isSpacePressed = false;
     private boolean lookingRight = true;
-    private int playerSpeed = 2;
-    private int jumpPower = 1;
+    private boolean grounded = false;
+    private int playerSpeed = 5;
+    private int jumpPower = 3;
     // Image of player
     @FXML
     private ImageView player;
@@ -38,49 +39,54 @@ public class PlayerMovement {
     }
 
     public void move(int power, boolean right) {
-        if (!right) {
-            power *= -1;
-        }
         // reflect player
         if (player.getScaleX() < 0 && right) {
             lookingRight = true;
             player.setScaleX(player.getScaleX() * -1);
-            player.setLayoutX(playerBox.getLayoutX() - 6);
         } else if (player.getScaleX() > 0 && !right) {
             lookingRight = false;
             player.setScaleX(player.getScaleX() * -1);
-            player.setLayoutX(playerBox.getLayoutX() - 18);
         }
         // move player
-        for (Node platform : platforms) {
-            if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
-                if (right && playerBox.getLayoutX() + playerBox.getWidth() == platform.getLayoutX()
-                        || !right && playerBox.getLayoutX() == platform.getLayoutX()
-                        + platform.getBoundsInParent().getWidth() - 1) {
-                    return;
+        while (power != 0) {
+            for (Node platform : platforms) {
+                if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
+                    System.out.println(playerBox.getTranslateX());
+                    System.out.println(platform.getTranslateX()
+                            + platform.getBoundsInParent().getWidth());
+                    if (right && playerBox.getTranslateX() + playerBox.getWidth() == platform.getTranslateX()
+                            || !right && playerBox.getTranslateX() == platform.getTranslateX()
+                            + platform.getBoundsInParent().getWidth() - 1) {
+                        return;
+                    }
                 }
             }
+            /// todo: intersect handling for monsters
+            playerBox.setTranslateX(playerBox.getTranslateX() + (right ? 1 : -1));
+            power--;
         }
-        /// todo: intersect handling for monsters
-        playerBox.setLayoutX(playerBox.getLayoutX() + power);
+
     }
 
     public void jump(int jumpPower) {
         for (Node platform : platforms) {
             if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
-                System.out.println(playerBox.getLayoutY());
-                System.out.println(platform.getLayoutY() + platform.getBoundsInParent().getHeight());
-                if (playerBox.getLayoutY() == platform.getLayoutY() + platform.getBoundsInParent().getHeight() - 1) {
+                if (playerBox.getTranslateY() == platform.getTranslateY()
+                        + platform.getBoundsInParent().getHeight() - jumpPower) {
                     return;
                 }
             }
         }
-        playerBox.setLayoutY(playerBox.getLayoutY() - jumpPower);
+        playerBox.setTranslateY(playerBox.getTranslateY() - jumpPower);
     }
 
     AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long l) {
+//            // checking if player is on ground
+//            for (Node platform : platforms) {
+//                if ()
+//            }
             // movement
             if (isSpacePressed) {
                 jump(jumpPower);
@@ -92,11 +98,11 @@ public class PlayerMovement {
                 move(playerSpeed, false);
             }
             // updating playerImage position to stay on playerBox
-            player.setLayoutY(playerBox.getLayoutY() + 1);
+            player.setTranslateY(playerBox.getTranslateY() + 1);
             if (lookingRight) {
-                player.setLayoutX(playerBox.getLayoutX() - 6);
+                player.setTranslateX(playerBox.getTranslateX() - 6);
             } else {
-                player.setLayoutX(playerBox.getLayoutX() - 18);
+                player.setTranslateX(playerBox.getTranslateX() - 18);
             }
         }
     };
