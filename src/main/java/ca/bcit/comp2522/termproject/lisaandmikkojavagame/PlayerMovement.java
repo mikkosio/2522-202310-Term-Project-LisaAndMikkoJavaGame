@@ -19,6 +19,7 @@ public class PlayerMovement {
     private int playerSpeed = 5;
     private int jumpPower = 3;
     private int gravity = 1;
+    private int maxGravity;
     // Image of player
     @FXML
     private ImageView player;
@@ -39,7 +40,7 @@ public class PlayerMovement {
         timer.start();
     }
 
-    public void move(int power, boolean right) {
+    public void horizontalMovement(int power, boolean right) {
         // reflect player
         if (player.getScaleX() < 0 && right) {
             lookingRight = true;
@@ -66,19 +67,22 @@ public class PlayerMovement {
             playerBox.setTranslateX(playerBox.getTranslateX() + (right ? 1 : -1));
             power--;
         }
-
     }
 
-    public void jump(int jumpPower) {
-        for (Node platform : platforms) {
-            if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
-                if (playerBox.getTranslateY() == platform.getTranslateY()
-                        + platform.getBoundsInParent().getHeight() - jumpPower) {
-                    return;
+    public void verticalMovement(int power, boolean jumping) {
+        while (power != 0) {
+            for (Node platform : platforms) {
+                if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
+                    if (playerBox.getTranslateY() == platform.getTranslateY()
+                            + platform.getBoundsInParent().getHeight() - jumpPower
+                            || playerBox.getTranslateY() + playerBox.getHeight() == platform.getTranslateY()) {
+                        return;
+                    }
                 }
             }
+            playerBox.setTranslateY(playerBox.getTranslateY() - jumpPower);
+            power--;
         }
-        playerBox.setTranslateY(playerBox.getTranslateY() - jumpPower);
     }
 
     AnimationTimer timer = new AnimationTimer() {
@@ -104,13 +108,13 @@ public class PlayerMovement {
 
             // movement
             if (isSpacePressed) {
-                jump(jumpPower);
+                verticalMovement(jumpPower, true);
             }
             if (isDPressed) {
-                move(playerSpeed, true);
+                horizontalMovement(playerSpeed, true);
             }
             if (isAPressed) {
-                move(playerSpeed, false);
+                horizontalMovement(playerSpeed, false);
             }
             // updating playerImage position to stay on playerBox
             player.setTranslateY(playerBox.getTranslateY() + 1);

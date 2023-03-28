@@ -26,7 +26,7 @@ public class Controller implements Initializable {
         level.addPlatform(900, 400, 60, 60, Color.DODGERBLUE);
         level.addPlatform(640, 400, 60, 60, Color.DODGERBLUE);
         level.addPlatform(760, 290, 120, 60, Color.DODGERBLUE);
-//        level.addMonster(MonsterType.MONSTER1, 0, 460);
+        level.addMonster(MonsterType.MONSTER1, 0, 460);
         return level;
     }
 
