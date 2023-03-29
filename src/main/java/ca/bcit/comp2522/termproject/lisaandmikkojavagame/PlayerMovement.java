@@ -79,7 +79,10 @@ public class PlayerMovement {
                         yVelocity = 0;
                         return;
                     } else if (playerBox.getTranslateY() + playerBox.getHeight() == platform.getTranslateY()
-                            && power > 0) {
+                            && power > 0
+                            && playerBox.getTranslateX() != platform.getTranslateX()
+                                + platform.getBoundsInParent().getWidth() - 1
+                            && playerBox.getTranslateX() + playerBox.getWidth() != platform.getTranslateX()) {
                         canJump = true;
                         return;
                     }
