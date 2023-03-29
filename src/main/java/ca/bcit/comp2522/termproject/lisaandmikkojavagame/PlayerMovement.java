@@ -30,9 +30,11 @@ public class PlayerMovement {
     @FXML
     private AnchorPane scene;
     private ArrayList<Node> platforms;
-    private ArrayList<ImageView> monsters;
+    private ArrayList<Monster> monsters;
 
-    public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<ImageView> monsters) {
+    private PlayerHealth health;
+
+    public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<Monster> monsters) {
         this.player = player;
         this.playerBox = playerBox;
         this.scene = scene;
@@ -61,6 +63,22 @@ public class PlayerMovement {
                         && playerBox.getTranslateY() + playerBox.getHeight() != platform.getTranslateY()) {
                         return;
                     }
+                }
+            }
+            // player intersects with monster
+            for (Monster monster : monsters) {
+                if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
+                    System.out.println(playerBox.getTranslateX());
+                    System.out.println(monster.getMonsterImage().getTranslateX()
+                            + monster.getMonsterBox().getWidth());
+                    // what happens when u hit the monster
+                    boolean movingRight = player.getScaleX() > 0;
+                    int direction = movingRight ? -1 : 1;
+                    // Move the player back in the opposite direction
+                    playerBox.setTranslateX(playerBox.getTranslateX() + (direction * 30));
+                    player.setTranslateX(playerBox.getTranslateX());
+                    monster.doesDamage(health);
+                    return;
                 }
             }
             /// todo: intersect handling for monsters

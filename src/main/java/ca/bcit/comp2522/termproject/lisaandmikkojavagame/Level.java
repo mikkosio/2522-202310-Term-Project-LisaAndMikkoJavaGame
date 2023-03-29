@@ -9,10 +9,11 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
+
 public class Level {
     private ArrayList<Node> platforms;
     private Rectangle playerBox;
-    private ArrayList<ImageView> monsters;
+    private ArrayList<Monster> monsters;
 
     Level() {
         platforms = new ArrayList<>();
@@ -33,15 +34,16 @@ public class Level {
 
     public void addMonster(MonsterType monsterType, int xCoordinate, int yCoordinate) {
         Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/monster1.png"));
-        ImageView monster = new ImageView(image);
-        monster.setLayoutX(xCoordinate);
-        monster.setLayoutY(yCoordinate);
-        monster.setFitHeight(50);
-        monster.setFitWidth(50);
+        ImageView monsterImage = new ImageView(image);
+        Monster monster = new Monster(monsterImage);
+        monster.getMonsterImage().setLayoutX(xCoordinate);
+        monster.getMonsterImage().setLayoutY(yCoordinate);
+        monster.getMonsterImage().setFitHeight(50);
+        monster.getMonsterImage().setFitWidth(50);
         monsters.add(monster);
     }
 
-    public ArrayList<ImageView> getMonsters() {
+    public ArrayList<Monster> getMonsters() {
         return monsters;
     }
 
@@ -59,8 +61,8 @@ public class Level {
         for (Node platform : platforms) {
             scene.getChildren().add(platform);
         }
-        for (ImageView monster: monsters) {
-            scene.getChildren().add(monster);
+        for (Monster monster: monsters) {
+            scene.getChildren().add(monster.getMonsterImage());
         }
     }
 

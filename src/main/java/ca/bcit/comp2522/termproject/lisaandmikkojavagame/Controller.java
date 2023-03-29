@@ -17,6 +17,10 @@ public class Controller implements Initializable {
     private PlayerMovement playerMovement = new PlayerMovement();
     private ArrayList<Level> levels;
 
+    private PlayerHealth playerHealth;
+
+
+
     private Level createLevel1() {
         Level level = new Level();
         // Place player
@@ -37,4 +41,5 @@ public class Controller implements Initializable {
         player.setViewOrder(-1);
         playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters());
     }
+
 }
