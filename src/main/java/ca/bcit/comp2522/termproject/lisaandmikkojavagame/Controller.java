@@ -20,7 +20,7 @@ public class Controller implements Initializable {
     private Level createLevel1() {
         Level level = new Level();
         // Place player
-        level.placePlayer(800, 399, 32, 60);
+        level.placePlayer(800, 200, 32, 60);
         // Create platforms
         level.addPlatform(0, 460, 1600, 100, Color.DODGERBLUE);
         level.addPlatform(900, 400, 60, 60, Color.DODGERBLUE);

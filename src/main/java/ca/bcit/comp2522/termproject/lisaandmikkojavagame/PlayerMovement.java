@@ -15,11 +15,12 @@ public class PlayerMovement {
     private boolean isAPressed = false;
     private boolean isSpacePressed = false;
     private boolean lookingRight = true;
-    private boolean grounded = false;
-    private int playerSpeed = 5;
-    private int jumpPower = 3;
-    private int gravity = 1;
-    private int maxGravity;
+    private boolean canJump = true;
+    private int playerSpeed = 3;
+    private int jumpPower = 40;
+    private int yVelocity;
+    private double gravity = 1;
+    private int maxGravity = 15;
     // Image of player
     @FXML
     private ImageView player;
@@ -53,9 +54,6 @@ public class PlayerMovement {
         while (power != 0) {
             for (Node platform : platforms) {
                 if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
-                    System.out.println(playerBox.getTranslateX());
-                    System.out.println(platform.getTranslateX()
-                            + platform.getBoundsInParent().getWidth());
                     if (right && playerBox.getTranslateX() + playerBox.getWidth() == platform.getTranslateX()
                             || !right && playerBox.getTranslateX() == platform.getTranslateX()
                             + platform.getBoundsInParent().getWidth() - 1) {
@@ -69,46 +67,53 @@ public class PlayerMovement {
         }
     }
 
-    public void verticalMovement(int power, boolean jumping) {
-        while (power != 0) {
+    public void verticalMovement(int power) {
+        boolean jumping = power < 0;
+        for (int i = 0; i < Math.abs(power); i++) {
             for (Node platform : platforms) {
                 if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
                     if (playerBox.getTranslateY() == platform.getTranslateY()
-                            + platform.getBoundsInParent().getHeight() - jumpPower
-                            || playerBox.getTranslateY() + playerBox.getHeight() == platform.getTranslateY()) {
+                            + platform.getBoundsInParent().getHeight() - 1) {
+                        playerBox.setTranslateY(playerBox.getTranslateY() + 1);
+                        yVelocity = 0;
+                        return;
+                    } else if (playerBox.getTranslateY() + playerBox.getHeight() == platform.getTranslateY()
+                            && power > 0) {
+                        canJump = true;
                         return;
                     }
                 }
             }
-            playerBox.setTranslateY(playerBox.getTranslateY() - jumpPower);
-            power--;
+            if (power > 0) {
+                // falling
+                playerBox.setTranslateY(playerBox.getTranslateY() + 1);
+                power--;
+            } else {
+                // jumping
+                playerBox.setTranslateY(playerBox.getTranslateY() - 1);
+                power++;
+            }
         }
+    }
+
+    public void jump() {
+        yVelocity -= jumpPower;
+        canJump = false;
+        isSpacePressed = false;
     }
 
     AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long l) {
-            // checking if player is on ground
-            for (Node platform : platforms) {
-                if (playerBox.getTranslateY() + playerBox.getHeight() == platform.getTranslateY()
-                        && playerBox.getTranslateX() < platform.getTranslateX()
-                            + platform.getBoundsInParent().getWidth()
-                        && playerBox.getTranslateX() + playerBox.getWidth() > platform.getTranslateX()) {
-                    grounded = true;
-                    break;
-                } else {
-                    grounded = false;
-                }
+            if (yVelocity < maxGravity) {
+                yVelocity += gravity;
             }
 
-            // gravity
-            if (!grounded) {
-                playerBox.setTranslateY(playerBox.getTranslateY() + gravity);
-            }
+            verticalMovement(yVelocity);
 
             // movement
-            if (isSpacePressed) {
-                verticalMovement(jumpPower, true);
+            if (isSpacePressed && canJump) {
+                jump();
             }
             if (isDPressed) {
                 horizontalMovement(playerSpeed, true);
@@ -145,9 +150,6 @@ public class PlayerMovement {
             }
             if (keyEvent.getCode() == KeyCode.A) {
                 isAPressed = false;
-            }
-            if (keyEvent.getCode() == KeyCode.SPACE) {
-                isSpacePressed = false;
             }
         });
     }
