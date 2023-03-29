@@ -16,8 +16,9 @@ public class PlayerMovement {
     private boolean isSpacePressed = false;
     private boolean lookingRight = true;
     private boolean canJump = true;
-    private int playerSpeed = 3;
+    private int playerSpeed = 2;
     private int jumpPower = 40;
+    private int numOfJumps;
     private int yVelocity;
     private double gravity = 1;
     private int maxGravity = 15;
@@ -54,9 +55,10 @@ public class PlayerMovement {
         while (power != 0) {
             for (Node platform : platforms) {
                 if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
-                    if (right && playerBox.getTranslateX() + playerBox.getWidth() == platform.getTranslateX()
-                            || !right && playerBox.getTranslateX() == platform.getTranslateX()
-                            + platform.getBoundsInParent().getWidth() - 1) {
+                    if ((right && playerBox.getTranslateX() + playerBox.getWidth() == platform.getTranslateX()
+                        || !right && playerBox.getTranslateX() == platform.getTranslateX()
+                            + platform.getBoundsInParent().getWidth() - 1)
+                        && playerBox.getTranslateY() + playerBox.getHeight() != platform.getTranslateY()) {
                         return;
                     }
                 }
@@ -68,7 +70,6 @@ public class PlayerMovement {
     }
 
     public void verticalMovement(int power) {
-        boolean jumping = power < 0;
         for (int i = 0; i < Math.abs(power); i++) {
             for (Node platform : platforms) {
                 if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
@@ -99,7 +100,6 @@ public class PlayerMovement {
     public void jump() {
         yVelocity -= jumpPower;
         canJump = false;
-        isSpacePressed = false;
     }
 
     AnimationTimer timer = new AnimationTimer() {
@@ -112,7 +112,7 @@ public class PlayerMovement {
             verticalMovement(yVelocity);
 
             // movement
-            if (isSpacePressed && canJump) {
+            if (isSpacePressed && canJump && numOfJumps < 1) {
                 jump();
             }
             if (isDPressed) {
@@ -150,6 +150,9 @@ public class PlayerMovement {
             }
             if (keyEvent.getCode() == KeyCode.A) {
                 isAPressed = false;
+            }
+            if (keyEvent.getCode() == KeyCode.SPACE) {
+                isSpacePressed = false;
             }
         });
     }

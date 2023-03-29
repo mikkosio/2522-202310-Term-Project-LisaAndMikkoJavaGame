@@ -62,6 +62,7 @@ public class Level {
         for (ImageView monster: monsters) {
             scene.getChildren().add(monster);
         }
+        scene.getChildren().add(playerBox);
     }
 
 }
