@@ -2,12 +2,14 @@ package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 
 import java.util.ArrayList;
 
@@ -127,6 +129,17 @@ public class PlayerMovement {
     AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long l) {
+            for (Monster monster : monsters) {
+                double x = monster.getMonsterImage().getTranslateX();
+                double y = monster.getMonsterImage().getTranslateY();
+
+                // Move monster to the right
+                x += monster.getMonsterSpeed();
+
+                monster.getMonsterImage().setTranslateX(x);
+                monster.getMonsterImage().setTranslateY(y);
+            }
+            //player movement
             if (yVelocity < maxGravity) {
                 yVelocity += gravity;
             }
