@@ -10,10 +10,9 @@ public class Monster {
 
     private boolean isShot = false;
 
-    private PlayerHealth health;
-
-    public Monster(ImageView monsterImage) {
+    public Monster(ImageView monsterImage, MonsterType type) {
         this.monsterImage = monsterImage;
+        this.type = type;
     }
 
     public Bounds getMonsterBox() {
@@ -27,6 +26,8 @@ public class Monster {
         switch (type) {
             case MONSTER1 -> {
                 health.setHealth(health.getHealth() - 10);
+                health.updateHealthBar(health.getHealth());
+
             }
             case MONSTER2 -> {
                 health.setHealth(health.getHealth() - 25);

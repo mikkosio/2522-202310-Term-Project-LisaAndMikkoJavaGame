@@ -35,7 +35,7 @@ public class Level {
     public void addMonster(MonsterType monsterType, int xCoordinate, int yCoordinate) {
         Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/monster1.png"));
         ImageView monsterImage = new ImageView(image);
-        Monster monster = new Monster(monsterImage);
+        Monster monster = new Monster(monsterImage, MonsterType.MONSTER1);
         monster.getMonsterImage().setLayoutX(xCoordinate);
         monster.getMonsterImage().setLayoutY(yCoordinate);
         monster.getMonsterImage().setFitHeight(50);

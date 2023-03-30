@@ -2,6 +2,7 @@ package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -17,9 +18,8 @@ public class Controller implements Initializable {
     private PlayerMovement playerMovement = new PlayerMovement();
     private ArrayList<Level> levels;
 
-    private PlayerHealth playerHealth;
-
-
+    @FXML
+    private ProgressBar healthBar;
 
     private Level createLevel1() {
         Level level = new Level();
@@ -39,7 +39,7 @@ public class Controller implements Initializable {
         Level level1 = createLevel1();
         level1.fillScene(scene);
         player.setViewOrder(-1);
-        playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters());
+        playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(), healthBar);
     }
 
 }

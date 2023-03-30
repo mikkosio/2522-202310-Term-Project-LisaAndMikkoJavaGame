@@ -3,6 +3,7 @@ package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -34,12 +35,13 @@ public class PlayerMovement {
 
     private PlayerHealth health;
 
-    public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<Monster> monsters) {
+    public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<Monster> monsters, ProgressBar healthBar) {
         this.player = player;
         this.playerBox = playerBox;
         this.scene = scene;
         this.platforms = platforms;
         this.monsters = monsters;
+        this.health = new PlayerHealth(healthBar);
         movementSetup();
         timer.start();
     }
@@ -75,13 +77,12 @@ public class PlayerMovement {
                     boolean movingRight = player.getScaleX() > 0;
                     int direction = movingRight ? -1 : 1;
                     // Move the player back in the opposite direction
-                    playerBox.setTranslateX(playerBox.getTranslateX() + (direction * 30));
+                    playerBox.setTranslateX(playerBox.getTranslateX() + (direction * 50));
                     player.setTranslateX(playerBox.getTranslateX());
                     monster.doesDamage(health);
                     return;
                 }
             }
-            /// todo: intersect handling for monsters
             playerBox.setTranslateX(playerBox.getTranslateX() + (right ? 1 : -1));
             power--;
         }

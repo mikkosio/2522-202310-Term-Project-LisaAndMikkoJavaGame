@@ -3,7 +3,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
 <AnchorPane fx:id="scene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.bcit.comp2522.termproject.lisaandmikkojavagame.Controller">
     <children>
         <ImageView fitHeight="973.0" fitWidth="1600.0" pickOnBounds="true" preserveRatio="true">
@@ -11,6 +15,11 @@
                 <Image url="@JavaGameBG.jpeg" />
             </image>
         </ImageView>
+        <VBox fx:id="healthBarVBox" AnchorPane.topAnchor="15.0" AnchorPane.leftAnchor="25.0">
+            <Label text=" Player Health:" style="-fx-font-weight: bold; -fx-font-size: 15px; -fx-font-family: 'Arial';">
+            </Label>
+            <ProgressBar fx:id="healthBar" prefWidth="200.0" progress="1.0" />
+        </VBox>
         <ImageView fx:id="player" fitHeight="59.3" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@spacecharacter.png" />
@@ -18,3 +27,4 @@
         </ImageView>
     </children>
 </AnchorPane>
+
