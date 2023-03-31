@@ -34,14 +34,14 @@ public class Monster {
             case MONSTER1 -> {
                 health.setHealth(health.getHealth() - 10);
                 health.updateHealthBar(health.getHealth());
-
-
             }
             case MONSTER2 -> {
                 health.setHealth(health.getHealth() - 25);
+                health.updateHealthBar(health.getHealth());
             }
             case MONSTER3 -> {
                 health.setHealth(health.getHealth() - 50);
+                health.updateHealthBar(health.getHealth());
             }
         }
     }

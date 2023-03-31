@@ -32,9 +32,13 @@ public class PlayerHealth {
     }
 
     public void updateHealthBar(int healthValue) {
-        double progress = (double) healthValue / 100.0;
-        System.out.println("Updating health bar to: " + progress);
-        healthBar.setProgress(progress);
+        if (healthValue > 0) {
+            double progress = (double) healthValue / 100.0;
+            System.out.println("Updating health bar to: " + progress);
+            healthBar.setProgress(progress);
+        } else {
+            healthBar.setProgress(0.0);
+        }
     }
 
 }

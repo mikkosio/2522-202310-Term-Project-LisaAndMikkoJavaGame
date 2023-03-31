@@ -66,9 +66,9 @@ public class PlayerMovement {
             for (Node platform : platforms) {
                 if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
                     if ((right && playerBox.getTranslateX() + playerBox.getWidth() == platform.getTranslateX()
-                        || !right && playerBox.getTranslateX() == platform.getTranslateX()
+                            || !right && playerBox.getTranslateX() == platform.getTranslateX()
                             + platform.getBoundsInParent().getWidth() - 1)
-                        && playerBox.getTranslateY() + playerBox.getHeight() != platform.getTranslateY()) {
+                            && playerBox.getTranslateY() + playerBox.getHeight() != platform.getTranslateY()) {
                         return;
                     }
                 }
@@ -88,9 +88,9 @@ public class PlayerMovement {
                     monster.doesDamage(health);
                     return;
                 }
+                playerBox.setTranslateX(playerBox.getTranslateX() + (right ? 1 : -1));
+                power--;
             }
-            playerBox.setTranslateX(playerBox.getTranslateX() + (right ? 1 : -1));
-            power--;
         }
     }
 
@@ -136,9 +136,6 @@ public class PlayerMovement {
             for (Monster monster : monsters) {
                 double x = monster.getMonsterImage().getTranslateX();
                 double y = monster.getMonsterImage().getTranslateY();
-//
-//                // Move monster to the right
-//                x += monster.getMonsterSpeed();
 
                 if (monsterMovingRight && x >= monsterEndX) {
                     monsterMovingRight = false;
