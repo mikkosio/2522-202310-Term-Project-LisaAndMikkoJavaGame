@@ -37,6 +37,10 @@ public class PlayerMovement {
 
     private PlayerHealth health;
 
+    private double monsterStartX = 0;
+    private double monsterEndX = 200;
+    private boolean monsterMovingRight = true;
+
     public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<Monster> monsters, ProgressBar healthBar) {
         this.player = player;
         this.playerBox = playerBox;
@@ -132,9 +136,22 @@ public class PlayerMovement {
             for (Monster monster : monsters) {
                 double x = monster.getMonsterImage().getTranslateX();
                 double y = monster.getMonsterImage().getTranslateY();
+//
+//                // Move monster to the right
+//                x += monster.getMonsterSpeed();
 
-                // Move monster to the right
-                x += monster.getMonsterSpeed();
+                if (monsterMovingRight && x >= monsterEndX) {
+                    monsterMovingRight = false;
+                } else if (!monsterMovingRight && x <= monsterStartX) {
+                    monsterMovingRight = true;
+                }
+
+                // Move monster
+                if (monsterMovingRight) {
+                    x += monster.getMonsterSpeed();
+                } else {
+                    x -= monster.getMonsterSpeed();
+                }
 
                 monster.getMonsterImage().setTranslateX(x);
                 monster.getMonsterImage().setTranslateY(y);
