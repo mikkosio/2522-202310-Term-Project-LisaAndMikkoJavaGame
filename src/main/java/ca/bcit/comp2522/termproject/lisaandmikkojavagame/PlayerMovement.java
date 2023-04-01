@@ -152,6 +152,14 @@ public class PlayerMovement {
 
                 monster.getMonsterImage().setTranslateX(x);
                 monster.getMonsterImage().setTranslateY(y);
+
+                if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
+                    boolean movingRight = player.getScaleX() > 0;
+                    int direction = movingRight ? -1 : 1;
+                    playerBox.setTranslateX(playerBox.getTranslateX() + (direction * 50));
+                    player.setTranslateX(playerBox.getTranslateX());
+                    monster.doesDamage(health);
+                }
             }
             //player movement
             if (yVelocity < maxGravity) {
