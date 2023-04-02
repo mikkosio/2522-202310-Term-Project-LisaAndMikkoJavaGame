@@ -73,19 +73,18 @@ public class PlayerMovement {
                     }
                 }
             }
-            // player intersects with monster
             for (Monster monster : monsters) {
                 if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
-                    System.out.println(playerBox.getTranslateX());
-                    System.out.println(monster.getMonsterImage().getTranslateX()
-                            + monster.getMonsterBox().getWidth());
-                    // what happens when u hit the monster
-                    boolean movingRight = player.getScaleX() > 0;
-                    int direction = movingRight ? -1 : 1;
-                    // Move the player back in the opposite direction
-                    playerBox.setTranslateX(playerBox.getTranslateX() + (direction * 50));
-                    player.setTranslateX(playerBox.getTranslateX());
-                    monster.doesDamage(health);
+                    //player jump on top of monster
+                    if (playerBox.getTranslateY() < monster.getMonsterBox().getMinY()) {
+                        monster.removeFromScene(scene);
+                        return;
+                    } else {
+                        monster.doesDamage(health);
+                        int direction = lookingRight? -1 : 1;
+                        playerBox.setTranslateX(playerBox.getTranslateX() + (direction * 50));
+                        player.setTranslateX(playerBox.getTranslateX());
+                    }
                     return;
                 }
                 playerBox.setTranslateX(playerBox.getTranslateX() + (right ? 1 : -1));
