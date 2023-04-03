@@ -111,6 +111,13 @@ public class PlayerGun {
                     return;
                 }
             }
+            for (Monster monster : monsters) {
+                if (bullet.getBoundsInParent().intersects(monster.getMonsterBox())) {
+                    monster.removeFromScene(scene);
+                    resetBullet(bullet);
+                    return;
+                }
+            }
             // Move bullet one power at a time.
             bullet.setTranslateX(bullet.getTranslateX() + (movingRight ? 1 : -1));
 
