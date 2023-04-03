@@ -16,6 +16,7 @@ public class Controller implements Initializable {
     @FXML
     private ImageView player;
     private PlayerMovement playerMovement = new PlayerMovement();
+    private PlayerGun playerGun =  new PlayerGun();
     private ArrayList<Level> levels;
 
     @FXML
@@ -40,6 +41,7 @@ public class Controller implements Initializable {
         level1.fillScene(scene);
         player.setViewOrder(-1);
         playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(), healthBar);
+        playerGun.makeGun(scene, player, level1.getPlatforms(), level1.getMonsters());
     }
 
 }
