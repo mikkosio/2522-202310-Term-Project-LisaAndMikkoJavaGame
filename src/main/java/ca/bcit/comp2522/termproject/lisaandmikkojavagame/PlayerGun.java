@@ -111,9 +111,13 @@ public class PlayerGun {
                     return;
                 }
             }
+            // Check all monsters
             for (Monster monster : monsters) {
+                // If bullet intersects with any monster.
                 if (bullet.getBoundsInParent().intersects(monster.getMonsterBox())) {
+                    // Remove monster from scene.
                     monster.removeFromScene(scene);
+                    // Reset bullet coords.
                     resetBullet(bullet);
                     return;
                 }
