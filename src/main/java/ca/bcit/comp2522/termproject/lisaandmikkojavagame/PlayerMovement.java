@@ -16,12 +16,11 @@ import java.util.ArrayList;
 public class PlayerMovement {
     private boolean isDPressed = false;
     private boolean isAPressed = false;
-    private boolean isSpacePressed = false;
+    private boolean isSpaceReleased = true;
     private boolean lookingRight = true;
     private boolean canJump = true;
     private int playerSpeed = 2;
     private int jumpPower = 40;
-    private int numOfJumps;
     private int yVelocity;
     private double gravity = 1;
     private int maxGravity = 15;
@@ -168,9 +167,6 @@ public class PlayerMovement {
             verticalMovement(yVelocity);
 
             // movement
-            if (isSpacePressed && canJump && numOfJumps < 1) {
-                jump();
-            }
             if (isDPressed) {
                 horizontalMovement(playerSpeed, true);
             }
@@ -195,8 +191,9 @@ public class PlayerMovement {
             if (keyEvent.getCode() == KeyCode.A) {
                 isAPressed = true;
             }
-            if (keyEvent.getCode() == KeyCode.SPACE) {
-                isSpacePressed = true;
+            if (keyEvent.getCode() == KeyCode.SPACE && canJump && isSpaceReleased) {
+                jump();
+                isSpaceReleased = false;
             }
         });
 
@@ -204,11 +201,11 @@ public class PlayerMovement {
             if (keyEvent.getCode() == KeyCode.D) {
                 isDPressed = false;
             }
-            if (keyEvent.getCode() == KeyCode.A) {
+            if (keyEvent.getCode() == KeyCode.A ) {
                 isAPressed = false;
             }
             if (keyEvent.getCode() == KeyCode.SPACE) {
-                isSpacePressed = false;
+                isSpaceReleased = true;
             }
         });
     }
