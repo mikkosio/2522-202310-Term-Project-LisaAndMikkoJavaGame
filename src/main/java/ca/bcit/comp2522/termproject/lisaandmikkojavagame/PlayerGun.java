@@ -30,7 +30,6 @@ public class PlayerGun {
     private int cooldown;
     // Max cooldown.
     private int maxCooldown;
-    // Multiplier to make countdown into seconds in animation timers.
 
     public void makeGun(AnchorPane scene, ImageView playerImage, ArrayList<Node> platforms, ArrayList<Monster> monsters) {
         this.playerImage = playerImage;
@@ -58,10 +57,7 @@ public class PlayerGun {
     private void makeBullets() {
         for (int i = 0; i < 10; i++) {
             Rectangle newBullet = new Rectangle(12, 5, Color.RED);
-            newBullet.setTranslateX(10000);
-            newBullet.setTranslateY(10000);
             bullets.add(newBullet);
-            scene.getChildren().add(newBullet);
         }
     }
 
@@ -77,8 +73,8 @@ public class PlayerGun {
     public void shootGun() {
         // Check all bullets.
         for (Node bullet : bullets) {
-            // If coords in 10000, means bullet is ready to be used.
-            if (bullet.getTranslateX() == 10000 && bullet.getTranslateY() == 10000) {
+            // If bullet is not in scene, means bullet is ready to be used.
+            if (!scene.getChildren().contains(bullet)) {
                 // Player is facing right.
                 if (playerImage.getScaleX() > 0) {
                     // Move bullet in front of X Coord of player.
@@ -92,6 +88,8 @@ public class PlayerGun {
                 }
                 // Move bullet to player gun height.
                 bullet.setTranslateY(playerImage.getTranslateY() + 29);
+                // Add bullet to scene after editing coords.
+                scene.getChildren().add(bullet);
                 // return so we only do this for one bullet.
                 return;
             }
@@ -103,11 +101,10 @@ public class PlayerGun {
         for (int i = 0; i < bulletSpeed; i++) {
             // Check all platforms.
             for (Node platform : platforms) {
-                // If bullet intersects with any platform, reset and return.
+                // If bullet intersects with any platform.
                 if (bullet.getBoundsInParent().intersects(platform.getBoundsInParent())) {
-                    System.out.println("boom");
-                    // Reset coords of bullet.
-                    resetBullet(bullet);
+                    // Remove bullet from scene.
+                    scene.getChildren().remove(bullet);
                     return;
                 }
             }
@@ -117,21 +114,18 @@ public class PlayerGun {
                 if (bullet.getBoundsInParent().intersects(monster.getMonsterBox())) {
                     // Remove monster from scene.
                     monster.removeFromScene(scene);
-                    // Reset bullet coords.
-                    resetBullet(bullet);
+                    // Remove bullet from scene.
+                    scene.getChildren().remove(bullet);
                     return;
                 }
             }
             // Move bullet one power at a time.
             bullet.setTranslateX(bullet.getTranslateX() + (movingRight ? 1 : -1));
-
+            // If bullet outside of screen, remove bullet.
+            if (bullet.getTranslateX() < 0 || bullet.getTranslateX() > 1600) {
+                scene.getChildren().remove(bullet);
+            }
         }
-    }
-
-    private void resetBullet(Node bullet) {
-        // Reset to default coords (outside of screen).
-        bullet.setTranslateX(10000);
-        bullet.setTranslateY(10000);
     }
 
     AnimationTimer cooldownTimer = new AnimationTimer() {
@@ -148,12 +142,8 @@ public class PlayerGun {
         public void handle(long l) {
             // Check all bullets.
             for (Node bullet : bullets) {
-                // If bullet is not in default Y and bullet is outside of screen, reset it.
-                if (bullet.getTranslateY() != 10000 && 0 > bullet.getTranslateX() || bullet.getTranslateX() > 1600) {
-                    resetBullet(bullet);
-                }
-                // If bullet is not in default coords, move according to scale.
-                if (bullet.getTranslateX() != 10000) {
+                // If bullet is in scene, move according to scale.
+                if (scene.getChildren().contains(bullet)) {
                     if (bullet.getScaleX() > 0) {
                         moveBullet(bullet, true);
                     } else {
