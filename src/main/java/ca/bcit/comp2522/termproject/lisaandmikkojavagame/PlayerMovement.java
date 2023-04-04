@@ -75,20 +75,31 @@ public class PlayerMovement {
             }
             for (Monster monster : monsters) {
                 if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
-                    //player jump on top of monster
-                    if (playerBox.getTranslateY() < monster.getMonsterBox().getMinY()) {
-                        monster.removeFromScene(scene);
-                        return;
-                    } else {
-                        monster.doesDamage(health);
-                        int direction = lookingRight? -1 : 1;
-                        playerBox.setTranslateX(playerBox.getTranslateX() + (direction * 50));
-                        player.setTranslateX(playerBox.getTranslateX());
-                    }
+                    boolean movingRight = player.getScaleX() > 0;
+                    int direction = movingRight ? -1 : 1;
+                    playerBox.setTranslateX(playerBox.getTranslateX() + (direction * 50));
+                    player.setTranslateX(playerBox.getTranslateX());
+                    monster.doesDamage(health);
                     return;
                 }
                 playerBox.setTranslateX(playerBox.getTranslateX() + (right ? 1 : -1));
                 power--;
+//            for (Monster monster : monsters) {
+//                if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
+//                    //player jump on top of monster
+//                    if (playerBox.getTranslateY() < monster.getMonsterBox().getMinY()) {
+//                        monster.removeFromScene(scene);
+//                        return;
+//                    } else {
+//                        monster.doesDamage(health);
+//                        int direction = lookingRight? -1 : 1;
+//                        playerBox.setTranslateX(playerBox.getTranslateX() + (direction * 50));
+//                        player.setTranslateX(playerBox.getTranslateX());
+//                    }
+//                    return;
+//                }
+//                playerBox.setTranslateX(playerBox.getTranslateX() + (right ? 1 : -1));
+//                power--;
             }
         }
     }
@@ -112,6 +123,15 @@ public class PlayerMovement {
                     }
                 }
             }
+            for (Monster monster : monsters) {
+                if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
+                    //player jump on top of monster
+                    if (playerBox.getTranslateY() < monster.getMonsterBox().getMinY()) {
+                        monster.removeFromScene(scene);
+                    }
+                    return;
+                }
+            }
             if (power > 0) {
                 // falling
                 playerBox.setTranslateY(playerBox.getTranslateY() + 1);
@@ -128,7 +148,6 @@ public class PlayerMovement {
         yVelocity -= jumpPower;
         canJump = false;
     }
-
 
     AnimationTimer timer = new AnimationTimer() {
         @Override
