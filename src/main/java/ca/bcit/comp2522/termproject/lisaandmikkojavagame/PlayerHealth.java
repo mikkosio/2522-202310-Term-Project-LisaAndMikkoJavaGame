@@ -1,15 +1,18 @@
 package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 
-import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
+
+import java.util.Optional;
 
 public class PlayerHealth {
 
     private int health = 100;
 
-    ProgressBar healthBar;
+    private ProgressBar healthBar;
 
 
     public PlayerHealth(ProgressBar healthBar) {
@@ -23,9 +26,7 @@ public class PlayerHealth {
     public void setHealth(int health) {
         this.health = health;
     }
-
-
-    public Node getHealthBar() {
+    public VBox getHealthBar() {
         VBox container = new VBox();
         container.getChildren().add(healthBar);
         return container;
@@ -38,7 +39,28 @@ public class PlayerHealth {
             healthBar.setProgress(progress);
         } else {
             healthBar.setProgress(0.0);
+            showGameOverPopup();
         }
     }
 
+    private void showGameOverPopup() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Game Over");
+            alert.setHeaderText("Your player died :(");
+            alert.setContentText("Do you want to restart the game?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Restart game
+                // TODO:
+                setHealth(100);
+                updateHealthBar(100);
+            } else {
+                // Close game
+                System.exit(0);
+            }
+        });
+    }
 }
+

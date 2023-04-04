@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -128,9 +129,16 @@ public class PlayerMovement {
         canJump = false;
     }
 
+
     AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long l) {
+
+            if (health.getHealth() <= 0) {
+                stop();
+                return;
+            }
+
             for (Monster monster : monsters) {
                 double x = monster.getMonsterImage().getTranslateX();
                 double y = monster.getMonsterImage().getTranslateY();
