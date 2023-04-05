@@ -13,6 +13,7 @@ public class PlayerHealth {
     private int health = 100;
 
     private ProgressBar healthBar;
+    private boolean restartGame = false;
 
 
     public PlayerHealth(ProgressBar healthBar) {
@@ -43,6 +44,7 @@ public class PlayerHealth {
         }
     }
 
+
     private void showGameOverPopup() {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -52,15 +54,15 @@ public class PlayerHealth {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                // Restart game
-                // TODO:
-                setHealth(100);
-                updateHealthBar(100);
+                restartGame = true;
             } else {
                 // Close game
                 System.exit(0);
             }
         });
+    }
+    public boolean needsRestart() {
+        return restartGame;
     }
 }
 
