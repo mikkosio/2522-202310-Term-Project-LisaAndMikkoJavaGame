@@ -14,6 +14,7 @@ public class Level {
     private ArrayList<Node> platforms;
     private Rectangle playerBox;
     private ArrayList<Monster> monsters;
+    private ArrayList<PowerUp> powerUps;
     private int levelWidth;
     private int levelHeight;
     private int startX;
@@ -22,6 +23,7 @@ public class Level {
     Level(int levelWidth, int levelHeight, int startX, int startY) {
         platforms = new ArrayList<>();
         monsters = new ArrayList<>();
+        powerUps = new ArrayList<>();
         this.levelWidth = levelWidth;
         this.levelHeight = levelHeight;
         this.startX = startX;
@@ -71,6 +73,21 @@ public class Level {
         return monsters;
     }
 
+    public void addPowerUp(int xCoordinate, int yCoordinate) {
+        Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/icecream.png"));
+        ImageView powerUpImage = new ImageView(image);
+        PowerUp powerUp = new PowerUp(powerUpImage);
+        powerUp.getPowerUpImage().setLayoutX(xCoordinate);
+        powerUp.getPowerUpImage().setLayoutY(yCoordinate);
+        powerUp.getPowerUpImage().setFitHeight(25);
+        powerUp.getPowerUpImage().setFitWidth(25);
+        powerUps.add(powerUp);
+    }
+
+    public ArrayList<PowerUp> getPowerUps() {
+        return powerUps;
+    }
+
     public void placePlayer(int xCoordinate, int yCoordinate, int width, int height) {
         Rectangle player = new Rectangle(width, height);
         player.setTranslateX(xCoordinate);
@@ -87,6 +104,9 @@ public class Level {
         }
         for (Monster monster: monsters) {
             scene.getChildren().add(monster.getMonsterImage());
+        }
+        for (PowerUp powerup : powerUps) {
+            scene.getChildren().add(powerup.getPowerUpImage());
         }
     }
 

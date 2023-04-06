@@ -40,13 +40,18 @@ public class PlayerMovement {
     private double monsterStartX = 0;
     private double monsterEndX = 200;
     private boolean monsterMovingRight = true;
+    private ArrayList<PowerUp> powerUps;
+    private boolean powerUpIsGone = false;
+    private boolean poweredUp = false;
 
-    public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<Monster> monsters, ProgressBar healthBar) {
+
+    public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, ProgressBar healthBar) {
         this.player = player;
         this.playerBox = playerBox;
         this.scene = scene;
         this.platforms = platforms;
         this.monsters = monsters;
+        this.powerUps = powerUps;
         this.health = new PlayerHealth(healthBar);
         movementSetup();
         timer.start();
@@ -73,11 +78,18 @@ public class PlayerMovement {
                     }
                 }
             }
+            for (PowerUp powerUp : powerUps) {
+                if (playerBox.getBoundsInParent().intersects(powerUp.getPowerUpBox())) {
+                    powerUp.removePowerUpFromScene(scene);
+                    powerUp.powerUp(player);
+                    poweredUp = true;
+                    powerUpIsGone = true;
+                }
+            }
             playerBox.setTranslateX(playerBox.getTranslateX() + (right ? 1 : -1));
             power--;
         }
     }
-
 
 
     public void verticalMovement(int power) {
@@ -92,7 +104,7 @@ public class PlayerMovement {
                     } else if (playerBox.getTranslateY() + playerBox.getHeight() == platform.getTranslateY()
                             && power > 0
                             && playerBox.getTranslateX() != platform.getTranslateX()
-                                + platform.getBoundsInParent().getWidth() - 1
+                            + platform.getBoundsInParent().getWidth() - 1
                             && playerBox.getTranslateX() + playerBox.getWidth() != platform.getTranslateX()) {
                         canJump = true;
                         return;
@@ -125,9 +137,6 @@ public class PlayerMovement {
         canJump = false;
     }
 
-//    public void restartGame() {
-//        initalize();
-//    }
 
     AnimationTimer timer = new AnimationTimer() {
         @Override
@@ -161,14 +170,22 @@ public class PlayerMovement {
                 monster.getMonsterImage().setTranslateX(x);
                 monster.getMonsterImage().setTranslateY(y);
 
-                if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
-                    boolean playerIsRightOfMonster = player.getBoundsInParent().getCenterX() > monster.getMonsterImage().getBoundsInParent().getCenterX();
-                    int direction = !playerIsRightOfMonster ? -1 : 1;
-                    playerBox.setTranslateX(playerBox.getTranslateX() + (direction * 50));
-                    player.setTranslateX(playerBox.getTranslateX());
-                    monster.doesDamage(health);
+                if (poweredUp) {
+                    if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
+                        monster.removeFromScene(scene);
+                    }
+                } else {
+                    if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
+                        boolean playerIsRightOfMonster = player.getBoundsInParent().getCenterX() > monster.getMonsterImage().getBoundsInParent().getCenterX();
+                        int direction = !playerIsRightOfMonster ? -1 : 1;
+                        playerBox.setTranslateX(playerBox.getTranslateX() + (direction * 50));
+                        player.setTranslateX(playerBox.getTranslateX());
+                        monster.doesDamage(health);
+                    }
                 }
             }
+
+
             //player movement
             if (yVelocity < maxGravity) {
                 yVelocity += gravity;
@@ -179,6 +196,7 @@ public class PlayerMovement {
             // movement
             if (isDPressed) {
                 horizontalMovement(playerSpeed, true);
+
             }
             if (isAPressed) {
                 horizontalMovement(playerSpeed, false);
@@ -211,7 +229,7 @@ public class PlayerMovement {
             if (keyEvent.getCode() == KeyCode.D) {
                 isDPressed = false;
             }
-            if (keyEvent.getCode() == KeyCode.A ) {
+            if (keyEvent.getCode() == KeyCode.A) {
                 isAPressed = false;
             }
             if (keyEvent.getCode() == KeyCode.SPACE) {

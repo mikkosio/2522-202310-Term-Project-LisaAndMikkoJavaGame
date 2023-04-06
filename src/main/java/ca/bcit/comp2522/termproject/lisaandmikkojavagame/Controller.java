@@ -20,8 +20,11 @@ public class Controller implements Initializable {
     private PlayerGun playerGun =  new PlayerGun();
     private ArrayList<Level> levels;
 
+    private PlayerHealth health;
+
     @FXML
     private ProgressBar healthBar;
+
 
     private Level createLevel1() {
         Level level = new Level(3200, 1600, 0, 400);
@@ -43,8 +46,9 @@ public class Controller implements Initializable {
         player.setViewOrder(-1);
         camera = new Camera(scene, level1.getPlayerBox(), level1.getLevelWidth(), level1.getLevelHeight());
         playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(),
-                healthBar);
+                level1.getPowerUps(), healthBar);
         playerGun.makeGun(scene, player, level1.getPlatforms(), level1.getMonsters(), level1.getLevelWidth());
+        health = new PlayerHealth(healthBar);
     }
 
 }
