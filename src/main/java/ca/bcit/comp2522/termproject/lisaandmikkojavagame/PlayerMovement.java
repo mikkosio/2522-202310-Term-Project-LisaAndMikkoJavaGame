@@ -20,7 +20,7 @@ public class PlayerMovement {
     private boolean isSpaceReleased = true;
     private boolean lookingRight = true;
     private boolean canJump = true;
-    private int playerSpeed = 2;
+    private int playerSpeed = 3;
     private int jumpPower = 40;
     private int yVelocity;
     private double gravity = 1;
