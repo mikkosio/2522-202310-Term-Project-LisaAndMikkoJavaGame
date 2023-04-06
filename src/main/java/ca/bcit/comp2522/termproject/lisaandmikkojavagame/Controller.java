@@ -34,10 +34,16 @@ public class Controller implements Initializable {
         // Place player
         level.placePlayer(0, 400, 32, 60);
         // Create platforms
-        level.addPlatform(0, 460, 3200, 100, Color.DARKGRAY);
+        level.addPlatform(0, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(300, 460, 2900, 100, Color.DARKGRAY);
         level.addPlatform(900, 400, 60, 60, Color.DARKGRAY);
         level.addPlatform(640, 400, 60, 60, Color.DARKGRAY);
         level.addPlatform(760, 290, 120, 60, Color.DARKGRAY);
+        level.addPlatform(960, 150, 120, 60, Color.DARKGRAY);
+        level.addPlatform(1060, 0, 120, 60, Color.DARKGRAY);
+        level.addPlatform(1160, -150, 120, 60, Color.DARKGRAY);
+        level.addPlatform(1260, -300, 120, 60, Color.DARKGRAY);
+        level.addPlatform(1360, -450, 120, 60, Color.DARKGRAY);
         level.addMonster(MonsterType.MONSTER1, 1050, 398);
         return level;
     }
