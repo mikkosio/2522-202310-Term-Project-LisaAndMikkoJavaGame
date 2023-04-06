@@ -42,9 +42,6 @@ public class PlayerMovement {
     private double monsterEndX = 200;
     private boolean monsterMovingRight = true;
     private ArrayList<PowerUp> powerUps;
-    private boolean powerUpIsGone = false;
-    private boolean poweredUp = false;
-
 
     public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, ProgressBar healthBar) {
         this.player = player;
@@ -82,9 +79,7 @@ public class PlayerMovement {
             for (PowerUp powerUp : powerUps) {
                 if (playerBox.getBoundsInParent().intersects(powerUp.getPowerUpBox())) {
                     powerUp.removePowerUpFromScene(scene);
-                    powerUp.powerUp(player, playerBox, platforms);
-                    poweredUp = true;
-                    powerUpIsGone = true;
+                    powerUp.powerUp(player, playerBox);
                 }
             }
             playerBox.setTranslateX(playerBox.getTranslateX() + (right ? 1 : -1));
@@ -175,7 +170,7 @@ public class PlayerMovement {
                 monster.getMonsterImage().setTranslateX(x);
                 monster.getMonsterImage().setTranslateY(y);
 
-                if (poweredUp) {
+                if (PowerUp.poweredUp) {
                     if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
                         monster.removeFromScene(scene);
                     }

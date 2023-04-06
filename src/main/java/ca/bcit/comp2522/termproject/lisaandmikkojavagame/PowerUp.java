@@ -1,17 +1,15 @@
 package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+
 
 public class PowerUp {
     private int duration = 10;
@@ -20,7 +18,6 @@ public class PowerUp {
     private ImageView powerUpImage;
     private boolean powerUpIsGone = false;
 
-    private boolean poweredUp = false;
 
     public PowerUp(ImageView powerUpImage) {
         this.powerUpImage = powerUpImage;
@@ -44,12 +41,13 @@ public class PowerUp {
         poweredUp = true;
     }
 
-    public void powerUp(ImageView player, Rectangle playerBox, ArrayList<Node> platforms) {
+    public void powerUp(ImageView player, Rectangle playerBox) {
         player.setScaleX(player.getScaleX() * 1.2);
         player.setScaleY(player.getScaleY() * 1.2);
         playerBox.setWidth(playerBox.getWidth() * 1.1);
         playerBox.setHeight(playerBox.getHeight()*1.1);
 
+        poweredUp = true;
         // Start timer to reset power up effect after duration
         AnimationTimer powerUpTimer = new AnimationTimer() {
             private long startTime = System.currentTimeMillis();
@@ -61,14 +59,16 @@ public class PowerUp {
                     // Reset power up effect
                     player.setScaleX(player.getScaleX() / 1.2);
                     player.setScaleY(player.getScaleY() / 1.2);
-                    playerBox.setWidth(playerBox.getWidth() / 1.1);
-                    playerBox.setHeight(playerBox.getHeight()/1.1);
+                    playerBox.setWidth(Controller.PLAYER_WIDTH);
+                    playerBox.setHeight(Controller.PLAYER_HEIGHT);
+                    poweredUp = false;
 
                     stop();
-                    poweredUp = false;
                 }
             }
         };
         powerUpTimer.start();
     }
+
+    static boolean poweredUp = false;
 }

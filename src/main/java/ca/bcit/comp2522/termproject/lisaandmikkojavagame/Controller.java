@@ -32,7 +32,7 @@ public class Controller implements Initializable {
     private Level createTestLevel() {
         Level level = new Level(3200, 1600);
         // Place player
-        level.placePlayer(0, 400, 32, 60);
+        level.placePlayer(0, 400, PLAYER_WIDTH, PLAYER_HEIGHT);
         // Create platforms
         level.addPlatform(0, 460, 200, 100, Color.DARKGRAY);
         level.addPlatform(300, 460, 2900, 100, Color.DARKGRAY);
@@ -51,7 +51,7 @@ public class Controller implements Initializable {
 
     private Level createLevel1() {
         Level level = new Level(3200, 1600);
-        level.placePlayer(50, 100, 32, 60);
+        level.placePlayer(50, 100, PLAYER_WIDTH, PLAYER_HEIGHT);
         level.addPlatform(0, 460, 200, 340, Color.DARKGRAY);
         level.addPlatform(300, 460, 200, 400, Color.DARKGRAY);
 
@@ -72,6 +72,7 @@ public class Controller implements Initializable {
     }
 
 
-
+    static final int PLAYER_HEIGHT = 60;
+    static final int PLAYER_WIDTH = 32;
 
 }
