@@ -155,7 +155,6 @@ public class PlayerGun {
                     }
                 }
             }
-
         }
     };
 }
