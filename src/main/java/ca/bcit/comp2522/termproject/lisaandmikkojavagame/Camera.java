@@ -39,8 +39,6 @@ public class Camera {
 
         // Move camera vertically.
         playerBox.translateYProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue.intValue());
-            System.out.println(cameraHeight / 2);
             if (newValue.intValue() < cameraHeight / 2 && newValue.intValue() > levelHeight + cameraHeight / 2) {
                 scene.setLayoutY(-(playerBox.getTranslateY() - cameraHeight / 2));
                 healthBarVBox.setTranslateY((playerBox.getTranslateY() + cameraHeight / 2));
