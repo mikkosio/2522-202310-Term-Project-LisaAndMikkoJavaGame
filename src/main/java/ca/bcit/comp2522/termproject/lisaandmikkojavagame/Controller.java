@@ -51,17 +51,22 @@ public class Controller implements Initializable {
 
     private Level createLevel1() {
         Level level = new Level(3200, 1600);
+        // player
         level.placePlayer(50, 100, PLAYER_WIDTH, PLAYER_HEIGHT);
+        // borders
+        level.addPlatform(-1, -800, 1, 1600, Color.DARKGRAY);
+        level.addPlatform(3200, -800,1, 1600, Color.DARKGRAY);
+        // platforms
         level.addPlatform(0, 460, 200, 340, Color.DARKGRAY);
-        level.addPlatform(300, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(300, 430, 200, 100, Color.DARKGRAY);
         level.addPlatform(650, 460, 200, 100, Color.DARKGRAY);
-        level.addPlatform(1000, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(1000, 600, 200, 100, Color.DARKGRAY);
         level.addPlatform(1350, 460, 200, 100, Color.DARKGRAY);
         level.addPlatform(1700, 460, 200, 100, Color.DARKGRAY);
-        level.addPlatform(2050, 460, 200, 100, Color.DARKGRAY);
-        level.addPlatform(2400, 460, 200, 100, Color.DARKGRAY);
-        level.addPlatform(2750, 460, 200, 100, Color.DARKGRAY);
-        level.addPlatform(3000, 460, 200, 340, Color.DARKGRAY);
+        level.addPlatform(2050, 300, 200, 100, Color.DARKGRAY);
+        level.addPlatform(2400, 160, 200, 100, Color.DARKGRAY);
+        level.addPlatform(2750, 0, 200, 100, Color.DARKGRAY);
+        level.addPlatform(3000, -170, 200, 970, Color.DARKGRAY);
         return level;
     }
 
