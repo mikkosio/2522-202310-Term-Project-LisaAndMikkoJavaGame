@@ -93,6 +93,10 @@ public class PlayerMovement {
 
 
     public void verticalMovement(int power) {
+        // If player is falling, disable jumping.
+        if (power > 0) {
+            canJump = false;
+        }
         for (int i = 0; i < Math.abs(power); i++) {
             for (Node platform : platforms) {
                 if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
