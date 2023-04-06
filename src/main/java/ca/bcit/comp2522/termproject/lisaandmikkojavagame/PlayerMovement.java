@@ -45,9 +45,9 @@ public class PlayerMovement {
     private boolean monsterMovingRight = true;
     private ArrayList<PowerUp> powerUps;
 
-    public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, PlayerHealth healthBar) {
+//    public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, PlayerHealth healthBar) {
     public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms,
-                            ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, ProgressBar healthBar,
+                            ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, PlayerHealth healthBar,
                             int startX, int startY, Camera camera) {
         this.player = player;
         this.playerBox = playerBox;
@@ -56,7 +56,7 @@ public class PlayerMovement {
         this.monsters = monsters;
         this.powerUps = powerUps;
         this.health = healthBar;
-        this.health = new PlayerHealth(healthBar);
+//        this.health = new PlayerHealth(healthBar);
         this.startX = startX;
         this.startY = startY;
         this.camera = camera;

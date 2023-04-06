@@ -78,7 +78,7 @@ public class Controller implements Initializable {
     private void init() {
         resetScene();
 
-        Level level1 = createTestLevel();
+//        Level level1 = createTestLevel();
         Level level1 = createLevel1();
         level1.fillScene(scene);
         player.setViewOrder(-1);
@@ -86,8 +86,7 @@ public class Controller implements Initializable {
                 healthBarVBox);
         health = new PlayerHealth(healthBar);
         playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(),
-                level1.getPowerUps(), health);
-                level1.getPowerUps(), healthBar, level1.getStartX(), level1.getStartY(), camera);
+                level1.getPowerUps(), health, level1.getStartX(), level1.getStartY(), camera);
         playerGun.makeGun(scene, player, level1.getPlatforms(), level1.getMonsters(), level1.getLevelWidth());
         restartTimer.start();
     }
