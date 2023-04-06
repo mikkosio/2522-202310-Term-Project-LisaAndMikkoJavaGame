@@ -29,22 +29,31 @@ public class Controller implements Initializable {
     private ProgressBar healthBar;
 
 
-    private Level createLevel1() {
-        Level level = new Level(3200, 1600, 0, 400);
+    private Level createTestLevel() {
+        Level level = new Level(3200, 1600);
         // Place player
-        level.placePlayer(level.getStartX(), level.getStartY(), 32, 60);
+        level.placePlayer(0, 400, 32, 60);
         // Create platforms
-        level.addPlatform(0, 460, 3200, 100, Color.DODGERBLUE);
-        level.addPlatform(900, 400, 60, 60, Color.DODGERBLUE);
-        level.addPlatform(640, 400, 60, 60, Color.DODGERBLUE);
-        level.addPlatform(760, 290, 120, 60, Color.DODGERBLUE);
+        level.addPlatform(0, 460, 3200, 100, Color.DARKGRAY);
+        level.addPlatform(900, 400, 60, 60, Color.DARKGRAY);
+        level.addPlatform(640, 400, 60, 60, Color.DARKGRAY);
+        level.addPlatform(760, 290, 120, 60, Color.DARKGRAY);
         level.addMonster(MonsterType.MONSTER1, 1050, 398);
+        return level;
+    }
+
+    private Level createLevel1() {
+        Level level = new Level(3200, 1600);
+        level.placePlayer(50, 100, 32, 60);
+        level.addPlatform(0, 460, 200, 340, Color.DARKGRAY);
+        level.addPlatform(300, 460, 200, 400, Color.DARKGRAY);
+
         return level;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Level level1 = createLevel1();
+        Level level1 = createTestLevel();
         level1.fillScene(scene);
         player.setViewOrder(-1);
         camera = new Camera(scene, level1.getPlayerBox(), level1.getLevelWidth(), level1.getLevelHeight(),
