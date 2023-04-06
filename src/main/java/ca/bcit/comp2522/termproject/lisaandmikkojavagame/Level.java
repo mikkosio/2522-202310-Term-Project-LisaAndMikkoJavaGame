@@ -1,7 +1,10 @@
 package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -9,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class Level {
@@ -21,7 +25,6 @@ public class Level {
     private ImageView portal;
     private int startX;
     private int startY;
-    private Level nextLevel;
 
     Level(int levelWidth, int levelHeight, int startX, int startY) {
         platforms = new ArrayList<>();
@@ -33,23 +36,29 @@ public class Level {
         this.startY = startY;
     }
 
-    public void setNextLevel(Level nextLevel) {
-        this.nextLevel = nextLevel;
-    }
-
     // Checks if player has reached portal.
     private AnimationTimer checkCompletion = new AnimationTimer() {
         @Override
         public void handle(long l) {
             if (playerBox.getBoundsInParent().intersects(portal.getBoundsInParent())) {
-                if (nextLevel != null) {
-                    System.out.println(nextLevel);
-                } else {
-                    System.out.println("you win");
-                }
+                winPopup();
+                checkCompletion.stop();
             }
         }
     };
+
+    private void winPopup() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Win");
+            alert.setHeaderText("You Won!!");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                System.exit(0);
+            }
+        });
+    }
 
     public int getLevelWidth() {
         return levelWidth;
