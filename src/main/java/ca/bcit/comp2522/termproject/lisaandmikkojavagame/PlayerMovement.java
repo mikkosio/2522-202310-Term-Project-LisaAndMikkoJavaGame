@@ -22,7 +22,7 @@ public class PlayerMovement {
     private boolean lookingRight = true;
     private boolean canJump = true;
     private int playerSpeed = 3;
-    private int jumpPower = 40;
+    private int jumpPower = 45;
     private int yVelocity;
     private double gravity = 1;
     private int maxGravity = 15;
@@ -35,7 +35,9 @@ public class PlayerMovement {
     private AnchorPane scene;
     private ArrayList<Node> platforms;
     private ArrayList<Monster> monsters;
-
+    private int startX;
+    private int startY;
+    private Camera camera;
     private PlayerHealth health;
 
     private double monsterStartX = 0;
@@ -44,6 +46,9 @@ public class PlayerMovement {
     private ArrayList<PowerUp> powerUps;
 
     public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, PlayerHealth healthBar) {
+    public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms,
+                            ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, ProgressBar healthBar,
+                            int startX, int startY, Camera camera) {
         this.player = player;
         this.playerBox = playerBox;
         this.scene = scene;
@@ -51,6 +56,10 @@ public class PlayerMovement {
         this.monsters = monsters;
         this.powerUps = powerUps;
         this.health = healthBar;
+        this.health = new PlayerHealth(healthBar);
+        this.startX = startX;
+        this.startY = startY;
+        this.camera = camera;
         movementSetup();
         timer.start();
     }
@@ -70,7 +79,7 @@ public class PlayerMovement {
                 if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
                     if ((right && playerBox.getTranslateX() + playerBox.getWidth() == platform.getTranslateX()
                             || !right && playerBox.getTranslateX() == platform.getTranslateX()
-                            + platform.getBoundsInParent().getWidth() - 1)
+                                + platform.getBoundsInParent().getWidth() - 1)
                             && playerBox.getTranslateY() + playerBox.getHeight() != platform.getTranslateY()) {
                         return;
                     }
@@ -94,6 +103,13 @@ public class PlayerMovement {
             canJump = false;
         }
         for (int i = 0; i < Math.abs(power); i++) {
+            // reset player, if they fall off map.
+            if (playerBox.getTranslateY() + playerBox.getHeight() > 1000) {
+                playerBox.setTranslateX(startX);
+                playerBox.setTranslateY(startY);
+                camera.resetCamera();
+            }
+            // collision check for platforms.
             for (Node platform : platforms) {
                 if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
                     if (playerBox.getTranslateY() == platform.getTranslateY()
@@ -104,7 +120,7 @@ public class PlayerMovement {
                     } else if (playerBox.getTranslateY() + playerBox.getHeight() == platform.getTranslateY()
                             && power > 0
                             && playerBox.getTranslateX() != platform.getTranslateX()
-                            + platform.getBoundsInParent().getWidth() - 1
+                                + platform.getBoundsInParent().getWidth() - 1
                             && playerBox.getTranslateX() + playerBox.getWidth() != platform.getTranslateX()) {
                         canJump = true;
                         return;

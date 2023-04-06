@@ -30,9 +30,9 @@ public class Controller implements Initializable {
 
 
     private Level createTestLevel() {
-        Level level = new Level(3200, 1600);
+        Level level = new Level(3200, 1600, 0, 400);
         // Place player
-        level.placePlayer(0, 400, PLAYER_WIDTH, PLAYER_HEIGHT);
+        level.placePlayer(PLAYER_WIDTH, PLAYER_HEIGHT);
         // Create platforms
         level.addPlatform(0, 460, 200, 100, Color.DARKGRAY);
         level.addPlatform(300, 460, 2900, 100, Color.DARKGRAY);
@@ -50,11 +50,23 @@ public class Controller implements Initializable {
     }
 
     private Level createLevel1() {
-        Level level = new Level(3200, 1600);
-        level.placePlayer(50, 100, PLAYER_WIDTH, PLAYER_HEIGHT);
+        Level level = new Level(3200, 1600, 50, 100);
+        // player
+        level.placePlayer(PLAYER_WIDTH, PLAYER_HEIGHT);
+        // borders
+        level.addPlatform(-1, -800, 1, 1600, Color.DARKGRAY);
+        level.addPlatform(3200, -800,1, 1600, Color.DARKGRAY);
+        // platforms
         level.addPlatform(0, 460, 200, 340, Color.DARKGRAY);
-        level.addPlatform(300, 460, 200, 400, Color.DARKGRAY);
-
+        level.addPlatform(300, 430, 200, 100, Color.DARKGRAY);
+        level.addPlatform(650, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(1000, 600, 200, 100, Color.DARKGRAY);
+        level.addPlatform(1350, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(1700, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(2050, 300, 200, 100, Color.DARKGRAY);
+        level.addPlatform(2400, 160, 200, 100, Color.DARKGRAY);
+        level.addPlatform(2750, 0, 200, 100, Color.DARKGRAY);
+        level.addPlatform(3000, -170, 200, 970, Color.DARKGRAY);
         return level;
     }
 
@@ -67,6 +79,7 @@ public class Controller implements Initializable {
         resetScene();
 
         Level level1 = createTestLevel();
+        Level level1 = createLevel1();
         level1.fillScene(scene);
         player.setViewOrder(-1);
         camera = new Camera(scene, level1.getPlayerBox(), level1.getLevelWidth(), level1.getLevelHeight(),
@@ -74,6 +87,7 @@ public class Controller implements Initializable {
         health = new PlayerHealth(healthBar);
         playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(),
                 level1.getPowerUps(), health);
+                level1.getPowerUps(), healthBar, level1.getStartX(), level1.getStartY(), camera);
         playerGun.makeGun(scene, player, level1.getPlatforms(), level1.getMonsters(), level1.getLevelWidth());
         restartTimer.start();
     }
