@@ -1,5 +1,6 @@
 package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressBar;
@@ -19,8 +20,11 @@ public class Controller implements Initializable {
     private PlayerGun playerGun =  new PlayerGun();
     private ArrayList<Level> levels;
 
+    private PlayerHealth health;
+
     @FXML
     private ProgressBar healthBar;
+
 
     private Level createLevel1() {
         Level level = new Level();
@@ -32,6 +36,7 @@ public class Controller implements Initializable {
         level.addPlatform(640, 400, 60, 60, Color.DODGERBLUE);
         level.addPlatform(760, 290, 120, 60, Color.DODGERBLUE);
         level.addMonster(MonsterType.MONSTER1, 1050, 398);
+        level.addPowerUp(700, 400);
         return level;
     }
 
@@ -40,8 +45,13 @@ public class Controller implements Initializable {
         Level level1 = createLevel1();
         level1.fillScene(scene);
         player.setViewOrder(-1);
-        playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(), healthBar);
+        playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(), level1.getPowerUps(), healthBar);
         playerGun.makeGun(scene, player, level1.getPlatforms(), level1.getMonsters());
+        health = new PlayerHealth(healthBar);
+
+
     }
+
+
 
 }
