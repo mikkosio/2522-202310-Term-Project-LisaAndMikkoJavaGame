@@ -24,6 +24,8 @@ public class PlayerGun {
     private ArrayList<Monster> monsters;
     // Bullets to be used in list.
     private ArrayList<Node> bullets;
+    // Width of level
+    private int levelWidth;
     // Speed of bullet.
     private int bulletSpeed;
     // Cooldown to shoot.
@@ -31,12 +33,14 @@ public class PlayerGun {
     // Max cooldown.
     private int maxCooldown;
 
-    public void makeGun(AnchorPane scene, ImageView playerImage, ArrayList<Node> platforms, ArrayList<Monster> monsters) {
+    public void makeGun(AnchorPane scene, ImageView playerImage, ArrayList<Node> platforms, ArrayList<Monster> monsters,
+                        int levelWidth) {
         this.playerImage = playerImage;
         this.scene = scene;
         this.platforms = platforms;
         this.monsters = monsters;
-        this.bulletSpeed = 7;
+        this.levelWidth = levelWidth;
+        bulletSpeed = 7;
         cooldown = 0;
         maxCooldown = 50;
         bullets = new ArrayList<>();
@@ -122,7 +126,7 @@ public class PlayerGun {
             // Move bullet one power at a time.
             bullet.setTranslateX(bullet.getTranslateX() + (movingRight ? 1 : -1));
             // If bullet outside of screen, remove bullet.
-            if (bullet.getTranslateX() < 0 || bullet.getTranslateX() > 1600) {
+            if (bullet.getTranslateX() < 0 || bullet.getTranslateX() > levelWidth) {
                 scene.getChildren().remove(bullet);
             }
         }

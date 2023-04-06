@@ -132,7 +132,6 @@ public class PlayerMovement {
     AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long l) {
-
             if (health.getHealth() <= 0) {
                 stop();
                 return;

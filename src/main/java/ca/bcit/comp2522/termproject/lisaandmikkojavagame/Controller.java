@@ -15,6 +15,7 @@ public class Controller implements Initializable {
     private AnchorPane scene;
     @FXML
     private ImageView player;
+    private Camera camera;
     private PlayerMovement playerMovement = new PlayerMovement();
     private PlayerGun playerGun =  new PlayerGun();
     private ArrayList<Level> levels;
@@ -23,11 +24,11 @@ public class Controller implements Initializable {
     private ProgressBar healthBar;
 
     private Level createLevel1() {
-        Level level = new Level();
+        Level level = new Level(3200, 1600, 0, 400);
         // Place player
-        level.placePlayer(800, 200, 32, 60);
+        level.placePlayer(level.getStartX(), level.getStartY(), 32, 60);
         // Create platforms
-        level.addPlatform(0, 460, 1600, 100, Color.DODGERBLUE);
+        level.addPlatform(0, 460, 3200, 100, Color.DODGERBLUE);
         level.addPlatform(900, 400, 60, 60, Color.DODGERBLUE);
         level.addPlatform(640, 400, 60, 60, Color.DODGERBLUE);
         level.addPlatform(760, 290, 120, 60, Color.DODGERBLUE);
@@ -40,8 +41,10 @@ public class Controller implements Initializable {
         Level level1 = createLevel1();
         level1.fillScene(scene);
         player.setViewOrder(-1);
-        playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(), healthBar);
-        playerGun.makeGun(scene, player, level1.getPlatforms(), level1.getMonsters());
+        camera = new Camera(scene, level1.getPlayerBox(), level1.getLevelWidth(), level1.getLevelHeight());
+        playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(),
+                healthBar);
+        playerGun.makeGun(scene, player, level1.getPlatforms(), level1.getMonsters(), level1.getLevelWidth());
     }
 
 }

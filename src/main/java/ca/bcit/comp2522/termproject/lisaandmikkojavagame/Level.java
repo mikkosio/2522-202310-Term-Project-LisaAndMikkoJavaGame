@@ -14,10 +14,34 @@ public class Level {
     private ArrayList<Node> platforms;
     private Rectangle playerBox;
     private ArrayList<Monster> monsters;
+    private int levelWidth;
+    private int levelHeight;
+    private int startX;
+    private int startY;
 
-    Level() {
+    Level(int levelWidth, int levelHeight, int startX, int startY) {
         platforms = new ArrayList<>();
         monsters = new ArrayList<>();
+        this.levelWidth = levelWidth;
+        this.levelHeight = levelHeight;
+        this.startX = startX;
+        this.startY = startY;
+    }
+
+    public int getLevelWidth() {
+        return levelWidth;
+    }
+
+    public int getLevelHeight() {
+        return levelHeight;
+    }
+
+    public int getStartX() {
+        return startX;
+    }
+
+    public int getStartY() {
+        return startY;
     }
 
     public void addPlatform(int xCoordinate, int yCoordinate, int width, int height, Color color) {
