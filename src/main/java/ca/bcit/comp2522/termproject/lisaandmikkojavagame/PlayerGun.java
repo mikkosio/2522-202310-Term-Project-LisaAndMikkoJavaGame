@@ -60,7 +60,7 @@ public class PlayerGun {
 
     private void makeBullets() {
         for (int i = 0; i < 10; i++) {
-            Rectangle newBullet = new Rectangle(12, 5, Color.RED);
+            Rectangle newBullet = new Rectangle(13, 7, Color.RED);
             bullets.add(newBullet);
         }
     }
