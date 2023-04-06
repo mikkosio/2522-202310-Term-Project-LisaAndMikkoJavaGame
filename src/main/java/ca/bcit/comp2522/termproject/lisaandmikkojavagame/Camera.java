@@ -20,9 +20,10 @@ public class Camera {
         this.scene = scene;
         this.playerBox = playerBox;
         this.cameraWidth = scene.getPrefWidth();
-        this.cameraHeight = -scene.getPrefHeight();
+        this.cameraHeight = scene.getPrefHeight();
         this.levelWidth = levelWidth;
-        this.levelHeight = levelHeight;
+        // offset of 800
+        this.levelHeight = -levelHeight + 800;
         this.healthBarVBox = healthBarVBox;
         setupCamera();
     }
@@ -38,8 +39,10 @@ public class Camera {
 
         // Move camera vertically.
         playerBox.translateYProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.intValue() > cameraHeight / 2 && newValue.intValue() < levelHeight - cameraHeight / 2) {
-                scene.setLayoutY(-(playerBox.getTranslateY() + cameraHeight / 2));
+            System.out.println(newValue.intValue());
+            System.out.println(cameraHeight / 2);
+            if (newValue.intValue() < cameraHeight / 2 && newValue.intValue() > levelHeight + cameraHeight / 2) {
+                scene.setLayoutY(-(playerBox.getTranslateY() - cameraHeight / 2));
                 healthBarVBox.setTranslateY((playerBox.getTranslateY() + cameraHeight / 2));
             }
         });
