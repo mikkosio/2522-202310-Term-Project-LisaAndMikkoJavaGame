@@ -22,7 +22,7 @@ public class PlayerMovement {
     private boolean lookingRight = true;
     private boolean canJump = true;
     private int playerSpeed = 3;
-    private int jumpPower = 45;
+    private int jumpPower = 55;
     private int yVelocity;
     private double gravity = 1;
     private int maxGravity = 15;

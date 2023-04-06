@@ -94,6 +94,28 @@ public class Level {
         monsters.add(monster);
     }
 
+    public void addMonster2(MonsterType monsterType, int xCoordinate, int yCoordinate) {
+        Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/monster2.png"));
+        ImageView monsterImage = new ImageView(image);
+        Monster monster = new Monster(monsterImage, MonsterType.MONSTER2, 0.70);
+        monster.getMonsterImage().setLayoutX(xCoordinate);
+        monster.getMonsterImage().setLayoutY(yCoordinate);
+        monster.getMonsterImage().setFitHeight(50);
+        monster.getMonsterImage().setFitWidth(50);
+        monsters.add(monster);
+    }
+
+    public void addMonster3(MonsterType monsterType, int xCoordinate, int yCoordinate) {
+        Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/monster3.png"));
+        ImageView monsterImage = new ImageView(image);
+        Monster monster = new Monster(monsterImage, MonsterType.MONSTER3, 0.70);
+        monster.getMonsterImage().setLayoutX(xCoordinate);
+        monster.getMonsterImage().setLayoutY(yCoordinate);
+        monster.getMonsterImage().setFitHeight(50);
+        monster.getMonsterImage().setFitWidth(50);
+        monsters.add(monster);
+    }
+
     public ArrayList<Monster> getMonsters() {
         return monsters;
     }

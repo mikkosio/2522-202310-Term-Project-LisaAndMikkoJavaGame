@@ -74,7 +74,12 @@ public class Controller implements Initializable {
         // monsters
         level.addMonster(MonsterType.MONSTER1, 900, 400);
         level.addMonster(MonsterType.MONSTER3, 1100, 400);
-        level.addMonster(MonsterType.MONSTER2, 1700, 350);
+        level.addMonster2(MonsterType.MONSTER1, 300, 380);
+        level.addMonster(MonsterType.MONSTER1, 900, 400);
+        level.addMonster(MonsterType.MONSTER1, 1100, 400);
+        level.addMonster3(MonsterType.MONSTER1, 1700, 400);
+        //power up
+        level.addPowerUp(100, 300);
         // end goal
         level.placeGoal(3100, -100);
         return level;
