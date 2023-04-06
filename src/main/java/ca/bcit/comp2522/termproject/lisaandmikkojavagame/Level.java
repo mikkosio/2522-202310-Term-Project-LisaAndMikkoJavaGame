@@ -1,5 +1,6 @@
 package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,8 +18,10 @@ public class Level {
     private ArrayList<PowerUp> powerUps;
     private int levelWidth;
     private int levelHeight;
+    private ImageView portal;
     private int startX;
     private int startY;
+    private Level nextLevel;
 
     Level(int levelWidth, int levelHeight, int startX, int startY) {
         platforms = new ArrayList<>();
@@ -29,6 +32,24 @@ public class Level {
         this.startX = startX;
         this.startY = startY;
     }
+
+    public void setNextLevel(Level nextLevel) {
+        this.nextLevel = nextLevel;
+    }
+
+    // Checks if player has reached portal.
+    private AnimationTimer checkCompletion = new AnimationTimer() {
+        @Override
+        public void handle(long l) {
+            if (playerBox.getBoundsInParent().intersects(portal.getBoundsInParent())) {
+                if (nextLevel != null) {
+                    System.out.println(nextLevel);
+                } else {
+                    System.out.println("you win");
+                }
+            }
+        }
+    };
 
     public int getLevelWidth() {
         return levelWidth;
@@ -80,6 +101,18 @@ public class Level {
         return powerUps;
     }
 
+    public void placeGoal(int xCoord, int yCoord) {
+        Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/portal.png"));
+        ImageView portalImage = new ImageView(image);
+        Portal portal = new Portal(portalImage);
+        portal.getPortalImage().setTranslateX(xCoord);
+        portal.getPortalImage().setTranslateY(yCoord);
+        portal.getPortalImage().setFitWidth(100);
+        portal.getPortalImage().setFitHeight(100);
+        this.portal = portal.getPortalImage();
+        checkCompletion.start();
+    }
+
     public void placePlayer(int width, int height) {
         Rectangle player = new Rectangle(width, height);
         player.setTranslateX(startX);
@@ -109,6 +142,7 @@ public class Level {
         for (PowerUp powerup : powerUps) {
             scene.getChildren().add(powerup.getPowerUpImage());
         }
+        scene.getChildren().add(portal);
     }
 
 }

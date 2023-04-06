@@ -21,7 +21,9 @@ public class Controller implements Initializable {
     private Camera camera;
     private PlayerMovement playerMovement = new PlayerMovement();
     private PlayerGun playerGun =  new PlayerGun();
-    private ArrayList<Level> levels;
+    private Level level1;
+    private Level level2;
+    private Level level3;
 
     private PlayerHealth health;
 
@@ -44,6 +46,8 @@ public class Controller implements Initializable {
         level.addPlatform(1160, -150, 120, 60, Color.DARKGRAY);
         level.addPlatform(1260, -300, 120, 60, Color.DARKGRAY);
         level.addPlatform(1360, -450, 120, 60, Color.DARKGRAY);
+        level.setNextLevel(level1);
+        level.placeGoal(760, 400);
         level.addMonster(MonsterType.MONSTER1, 1050, 398);
         level.addPowerUp(1000, 300);
         return level;
@@ -65,8 +69,9 @@ public class Controller implements Initializable {
         level.addPlatform(1700, 460, 200, 100, Color.DARKGRAY);
         level.addPlatform(2050, 300, 200, 100, Color.DARKGRAY);
         level.addPlatform(2400, 160, 200, 100, Color.DARKGRAY);
-        level.addPlatform(2750, 0, 200, 100, Color.DARKGRAY);
-        level.addPlatform(3000, -170, 200, 970, Color.DARKGRAY);
+        level.addPlatform(2750, 0, 250, 100, Color.DARKGRAY);
+        level.addPlatform(3000, 0, 200, 800, Color.DARKGRAY);
+        level.placeGoal(3100, -100);
         return level;
     }
 
