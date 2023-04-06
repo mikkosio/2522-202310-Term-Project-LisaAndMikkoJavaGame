@@ -39,6 +39,7 @@ public class Controller implements Initializable {
         level.addPlatform(640, 400, 60, 60, Color.DARKGRAY);
         level.addPlatform(760, 290, 120, 60, Color.DARKGRAY);
         level.addMonster(MonsterType.MONSTER1, 1050, 398);
+        level.addPowerUp(1000, 300);
         return level;
     }
 
@@ -63,5 +64,8 @@ public class Controller implements Initializable {
         playerGun.makeGun(scene, player, level1.getPlatforms(), level1.getMonsters(), level1.getLevelWidth());
         health = new PlayerHealth(healthBar);
     }
+
+
+
 
 }

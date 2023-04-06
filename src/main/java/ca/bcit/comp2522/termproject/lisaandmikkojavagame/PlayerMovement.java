@@ -9,6 +9,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 
@@ -81,7 +82,7 @@ public class PlayerMovement {
             for (PowerUp powerUp : powerUps) {
                 if (playerBox.getBoundsInParent().intersects(powerUp.getPowerUpBox())) {
                     powerUp.removePowerUpFromScene(scene);
-                    powerUp.powerUp(player);
+                    powerUp.powerUp(player, playerBox, platforms);
                     poweredUp = true;
                     powerUpIsGone = true;
                 }

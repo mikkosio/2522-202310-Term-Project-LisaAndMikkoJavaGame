@@ -1,11 +1,15 @@
 package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
@@ -40,10 +44,11 @@ public class PowerUp {
         poweredUp = true;
     }
 
-    public void powerUp(ImageView player) {
+    public void powerUp(ImageView player, Rectangle playerBox, ArrayList<Node> platforms) {
         player.setScaleX(player.getScaleX() * 1.2);
         player.setScaleY(player.getScaleY() * 1.2);
-
+        playerBox.setWidth(playerBox.getWidth() * 1.1);
+        playerBox.setHeight(playerBox.getHeight()*1.1);
 
         // Start timer to reset power up effect after duration
         AnimationTimer powerUpTimer = new AnimationTimer() {
@@ -56,6 +61,9 @@ public class PowerUp {
                     // Reset power up effect
                     player.setScaleX(player.getScaleX() / 1.2);
                     player.setScaleY(player.getScaleY() / 1.2);
+                    playerBox.setWidth(playerBox.getWidth() / 1.1);
+                    playerBox.setHeight(playerBox.getHeight()/1.1);
+
                     stop();
                     poweredUp = false;
                 }
