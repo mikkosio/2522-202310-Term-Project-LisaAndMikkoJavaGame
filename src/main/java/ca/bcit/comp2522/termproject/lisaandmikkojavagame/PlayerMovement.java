@@ -105,9 +105,9 @@ public class PlayerMovement {
         for (int i = 0; i < Math.abs(power); i++) {
             // reset player, if they fall off map.
             if (playerBox.getTranslateY() + playerBox.getHeight() > 1000) {
-                playerBox.setTranslateX(startX);
-                playerBox.setTranslateY(startY);
-                camera.resetCamera();
+                health.updateHealthBar(0);
+                timer.stop();
+                return;
             }
             // collision check for platforms.
             for (Node platform : platforms) {
