@@ -72,6 +72,7 @@ public class Controller implements Initializable {
         level.addPlatform(2750, 0, 250, 100, Color.DARKGRAY);
         level.addPlatform(3000, 0, 200, 800, Color.DARKGRAY);
         level.placeGoal(3100, -100);
+        level1 = level;
         return level;
     }
 
@@ -82,9 +83,8 @@ public class Controller implements Initializable {
 
     private void init() {
         resetScene();
-
-//        Level level1 = createTestLevel();
-        Level level1 = createLevel1();
+        Level level1 = createTestLevel();
+//        Level level1 = createLevel1();
         level1.fillScene(scene);
         player.setViewOrder(-1);
         camera = new Camera(scene, level1.getPlayerBox(), level1.getLevelWidth(), level1.getLevelHeight(),
@@ -103,6 +103,8 @@ public class Controller implements Initializable {
         }
         scene.setLayoutX(0);
         scene.setLayoutY(0);
+        healthBarVBox.setTranslateX(0);
+        healthBarVBox.setTranslateY(0);
         healthBar.setProgress(100);
     }
 
@@ -115,7 +117,6 @@ public class Controller implements Initializable {
             }
         }
     };
-
 
     static final int PLAYER_HEIGHT = 60;
     static final int PLAYER_WIDTH = 32;
