@@ -22,7 +22,7 @@ public class PlayerMovement {
     private boolean lookingRight = true;
     private boolean canJump = true;
     private int playerSpeed = 3;
-    private int jumpPower = 55;
+    private int jumpPower = 45;
     private int yVelocity;
     private double gravity = 1;
     private int maxGravity = 15;
@@ -140,6 +140,13 @@ public class PlayerMovement {
                         monster.removeFromScene(scene);
                     }
                     return;
+                }
+            }
+            // intersection between player and powered up
+            for (PowerUp powerUp : powerUps) {
+                if (playerBox.getBoundsInParent().intersects(powerUp.getPowerUpBox())) {
+                    powerUp.removePowerUpFromScene(scene);
+                    powerUp.powerUp(player, playerBox);
                 }
             }
             if (power > 0) {
