@@ -45,8 +45,9 @@ public class PlayerMovement {
     private boolean monsterMovingRight = true;
     private ArrayList<PowerUp> powerUps;
 
+//    public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, PlayerHealth healthBar) {
     public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms,
-                            ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, ProgressBar healthBar,
+                            ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, PlayerHealth healthBar,
                             int startX, int startY, Camera camera) {
         this.player = player;
         this.playerBox = playerBox;
@@ -54,7 +55,8 @@ public class PlayerMovement {
         this.platforms = platforms;
         this.monsters = monsters;
         this.powerUps = powerUps;
-        this.health = new PlayerHealth(healthBar);
+        this.health = healthBar;
+//        this.health = new PlayerHealth(healthBar);
         this.startX = startX;
         this.startY = startY;
         this.camera = camera;
@@ -157,12 +159,11 @@ public class PlayerMovement {
         public void handle(long l) {
             if (health.getHealth() <= 0) {
                 stop();
+                isDPressed = false;
+                isAPressed = false;
+                isSpaceReleased = true;
                 return;
             }
-//            if (health.needsRestart()) {
-//                restartGame();
-//                return;
-//            }
 
             for (Monster monster : monsters) {
                 double x = monster.getMonsterImage().getTranslateX();
@@ -210,7 +211,6 @@ public class PlayerMovement {
             // movement
             if (isDPressed) {
                 horizontalMovement(playerSpeed, true);
-
             }
             if (isAPressed) {
                 horizontalMovement(playerSpeed, false);

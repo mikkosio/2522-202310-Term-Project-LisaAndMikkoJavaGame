@@ -44,8 +44,8 @@ public class PowerUp {
     public void powerUp(ImageView player, Rectangle playerBox) {
         player.setScaleX(player.getScaleX() * 1.2);
         player.setScaleY(player.getScaleY() * 1.2);
-        playerBox.setWidth(playerBox.getWidth() * 1.1);
-        playerBox.setHeight(playerBox.getHeight()*1.1);
+        playerBox.setWidth(Controller.PLAYER_WIDTH*1.1);
+        playerBox.setHeight(Controller.PLAYER_HEIGHT*1.1);
 
         poweredUp = true;
         // Start timer to reset power up effect after duration

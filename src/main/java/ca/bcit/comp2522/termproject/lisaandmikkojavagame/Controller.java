@@ -1,5 +1,6 @@
 package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressBar;
@@ -26,7 +27,6 @@ public class Controller implements Initializable {
     private Level level3;
 
     private PlayerHealth health;
-
     @FXML
     private ProgressBar healthBar;
 
@@ -77,16 +77,44 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        init();
+    }
+
+    private void init() {
+        resetScene();
+
+//        Level level1 = createTestLevel();
         Level level1 = createLevel1();
         level1.fillScene(scene);
         player.setViewOrder(-1);
         camera = new Camera(scene, level1.getPlayerBox(), level1.getLevelWidth(), level1.getLevelHeight(),
                 healthBarVBox);
-        playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(),
-                level1.getPowerUps(), healthBar, level1.getStartX(), level1.getStartY(), camera);
-        playerGun.makeGun(scene, player, level1.getPlatforms(), level1.getMonsters(), level1.getLevelWidth());
         health = new PlayerHealth(healthBar);
+        playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(),
+                level1.getPowerUps(), health, level1.getStartX(), level1.getStartY(), camera);
+        playerGun.makeGun(scene, player, level1.getPlatforms(), level1.getMonsters(), level1.getLevelWidth());
+        restartTimer.start();
     }
+
+    private void resetScene() {
+        int size = scene.getChildren().size();
+        for (int i = 3; i < size; i++) {
+            scene.getChildren().remove(3);
+        }
+        scene.setLayoutX(0);
+        scene.setLayoutY(0);
+        healthBar.setProgress(100);
+    }
+
+    AnimationTimer restartTimer = new AnimationTimer() {
+        @Override
+        public void handle(long l) {
+            if (health.needsRestart()) {
+                init();
+                return;
+            }
+        }
+    };
 
 
     static final int PLAYER_HEIGHT = 60;

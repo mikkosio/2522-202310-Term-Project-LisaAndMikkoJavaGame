@@ -27,11 +27,6 @@ public class PlayerHealth {
     public void setHealth(int health) {
         this.health = health;
     }
-    public VBox getHealthBar() {
-        VBox container = new VBox();
-        container.getChildren().add(healthBar);
-        return container;
-    }
 
     public void updateHealthBar(int healthValue) {
         if (healthValue > 0) {
