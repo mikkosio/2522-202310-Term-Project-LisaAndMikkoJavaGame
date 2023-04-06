@@ -13,7 +13,7 @@ public class Application extends javafx.application.Application {
         Scene scene = new Scene(fxmlLoader.load());
         // Listen for keys
         scene.getRoot().requestFocus();
-        stage.setTitle("Platformer Game");
+        stage.setTitle("Space Jumper");
         stage.setScene(scene);
         stage.show();
     }
