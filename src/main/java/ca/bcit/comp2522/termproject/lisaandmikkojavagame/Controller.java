@@ -72,14 +72,12 @@ public class Controller implements Initializable {
         level.addPlatform(2650, 0, 350, 100, Color.DARKGRAY);
         level.addPlatform(3000, 0, 200, 800, Color.DARKGRAY);
         // monsters
-        level.addMonster(MonsterType.MONSTER1, 900, 400);
-        level.addMonster(MonsterType.MONSTER3, 1100, 400);
         level.addMonster2(MonsterType.MONSTER1, 300, 380);
         level.addMonster(MonsterType.MONSTER1, 900, 400);
         level.addMonster(MonsterType.MONSTER1, 1100, 400);
         level.addMonster3(MonsterType.MONSTER1, 1700, 400);
-        //power up
-        level.addPowerUp(100, 300);
+        // power up
+        level.addPowerUp(1500, 400);
         // end goal
         level.placeGoal(3100, -100);
         return level;
