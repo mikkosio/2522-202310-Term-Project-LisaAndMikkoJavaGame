@@ -30,9 +30,9 @@ public class Controller implements Initializable {
 
 
     private Level createTestLevel() {
-        Level level = new Level(3200, 1600);
+        Level level = new Level(3200, 1600, 0, 400);
         // Place player
-        level.placePlayer(0, 400, PLAYER_WIDTH, PLAYER_HEIGHT);
+        level.placePlayer(PLAYER_WIDTH, PLAYER_HEIGHT);
         // Create platforms
         level.addPlatform(0, 460, 200, 100, Color.DARKGRAY);
         level.addPlatform(300, 460, 2900, 100, Color.DARKGRAY);
@@ -50,9 +50,9 @@ public class Controller implements Initializable {
     }
 
     private Level createLevel1() {
-        Level level = new Level(3200, 1600);
+        Level level = new Level(3200, 1600, 50, 100);
         // player
-        level.placePlayer(50, 100, PLAYER_WIDTH, PLAYER_HEIGHT);
+        level.placePlayer(PLAYER_WIDTH, PLAYER_HEIGHT);
         // borders
         level.addPlatform(-1, -800, 1, 1600, Color.DARKGRAY);
         level.addPlatform(3200, -800,1, 1600, Color.DARKGRAY);
@@ -78,7 +78,7 @@ public class Controller implements Initializable {
         camera = new Camera(scene, level1.getPlayerBox(), level1.getLevelWidth(), level1.getLevelHeight(),
                 healthBarVBox);
         playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(),
-                level1.getPowerUps(), healthBar);
+                level1.getPowerUps(), healthBar, level1.getStartX(), level1.getStartY(), camera);
         playerGun.makeGun(scene, player, level1.getPlatforms(), level1.getMonsters(), level1.getLevelWidth());
         health = new PlayerHealth(healthBar);
     }

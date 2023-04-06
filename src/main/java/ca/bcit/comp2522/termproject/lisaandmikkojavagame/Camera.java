@@ -1,5 +1,6 @@
 package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -44,5 +45,12 @@ public class Camera {
                 healthBarVBox.setTranslateY(playerBox.getTranslateY() - cameraHeight / 2);
             }
         });
+    }
+
+    public void resetCamera() {
+        scene.setLayoutX(0);
+        scene.setLayoutY(0);
+        healthBarVBox.setTranslateX(0);
+        healthBarVBox.setTranslateY(0);
     }
 }

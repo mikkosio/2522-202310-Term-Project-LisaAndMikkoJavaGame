@@ -17,13 +17,17 @@ public class Level {
     private ArrayList<PowerUp> powerUps;
     private int levelWidth;
     private int levelHeight;
+    private int startX;
+    private int startY;
 
-    Level(int levelWidth, int levelHeight) {
+    Level(int levelWidth, int levelHeight, int startX, int startY) {
         platforms = new ArrayList<>();
         monsters = new ArrayList<>();
         powerUps = new ArrayList<>();
         this.levelWidth = levelWidth;
         this.levelHeight = levelHeight;
+        this.startX = startX;
+        this.startY = startY;
     }
 
     public int getLevelWidth() {
@@ -76,12 +80,21 @@ public class Level {
         return powerUps;
     }
 
-    public void placePlayer(int xCoordinate, int yCoordinate, int width, int height) {
+    public void placePlayer(int width, int height) {
         Rectangle player = new Rectangle(width, height);
-        player.setTranslateX(xCoordinate);
-        player.setTranslateY(yCoordinate);
+        player.setTranslateX(startX);
+        player.setTranslateY(startY);
         playerBox = player;
     }
+
+    public int getStartX() {
+        return startX;
+    }
+
+    public int getStartY() {
+        return startY;
+    }
+
     public Rectangle getPlayerBox() {
         return playerBox;
     }
