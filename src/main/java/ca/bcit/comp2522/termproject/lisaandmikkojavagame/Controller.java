@@ -53,14 +53,21 @@ public class Controller implements Initializable {
         Level level = new Level(3200, 1600);
         level.placePlayer(50, 100, PLAYER_WIDTH, PLAYER_HEIGHT);
         level.addPlatform(0, 460, 200, 340, Color.DARKGRAY);
-        level.addPlatform(300, 460, 200, 400, Color.DARKGRAY);
-
+        level.addPlatform(300, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(650, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(1000, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(1350, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(1700, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(2050, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(2400, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(2750, 460, 200, 100, Color.DARKGRAY);
+        level.addPlatform(3000, 460, 200, 340, Color.DARKGRAY);
         return level;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Level level1 = createTestLevel();
+        Level level1 = createLevel1();
         level1.fillScene(scene);
         player.setViewOrder(-1);
         camera = new Camera(scene, level1.getPlayerBox(), level1.getLevelWidth(), level1.getLevelHeight(),
