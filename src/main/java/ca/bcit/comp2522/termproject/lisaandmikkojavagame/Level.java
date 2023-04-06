@@ -47,6 +47,7 @@ public class Level {
         }
     };
 
+    // popup for completion of the game
     private void winPopup() {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -68,6 +69,7 @@ public class Level {
         return levelHeight;
     }
 
+    // Add platform
     public void addPlatform(int xCoordinate, int yCoordinate, int width, int height, Color color) {
         Rectangle platform = new Rectangle(width, height, color);
         platform.setTranslateX(xCoordinate);
@@ -80,6 +82,7 @@ public class Level {
         return platforms;
     }
 
+    // Add monster
     public void addMonster(MonsterType monsterType, int xCoordinate, int yCoordinate) {
         Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/monster1.png"));
         ImageView monsterImage = new ImageView(image);
@@ -95,6 +98,7 @@ public class Level {
         return monsters;
     }
 
+    // Add power ups
     public void addPowerUp(int xCoordinate, int yCoordinate) {
         Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/icecream.png"));
         ImageView powerUpImage = new ImageView(image);
@@ -140,6 +144,8 @@ public class Level {
     public Rectangle getPlayerBox() {
         return playerBox;
     }
+
+    // Add monster, platforms, and powerups to scene
 
     public void fillScene(AnchorPane scene) {
         for (Node platform : platforms) {

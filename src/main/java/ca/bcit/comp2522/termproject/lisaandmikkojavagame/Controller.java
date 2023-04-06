@@ -109,6 +109,7 @@ public class Controller implements Initializable {
         restartTimer.start();
     }
 
+    // Reset scene for when game is restarted
     private void resetScene() {
         int size = scene.getChildren().size();
         for (int i = 3; i < size; i++) {

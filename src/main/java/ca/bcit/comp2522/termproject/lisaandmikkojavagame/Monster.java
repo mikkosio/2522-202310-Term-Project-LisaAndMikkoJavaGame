@@ -11,8 +11,6 @@ public class Monster {
 
     private MonsterType type;
 
-    private boolean isShot = false;
-
     private double monsterSpeed;
 
     private boolean isDead;
@@ -24,6 +22,7 @@ public class Monster {
         this.isDead = false;
     }
 
+    // Monster bounding box
     public Bounds getMonsterBox() {
         if (!isDead) {
             return monsterImage.getBoundsInParent();
@@ -39,12 +38,13 @@ public class Monster {
         return monsterSpeed;
     }
 
-
+    // remove monster
     public void removeFromScene(Pane pane) {
         pane.getChildren().remove(monsterImage);
         isDead = true;
     }
 
+    // Damage to health when player and monster intersect
     public void doesDamage(PlayerHealth health) {
         switch (type) {
             case MONSTER1 -> {

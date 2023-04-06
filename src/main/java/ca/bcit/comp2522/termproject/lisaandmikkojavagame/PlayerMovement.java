@@ -85,6 +85,7 @@ public class PlayerMovement {
                     }
                 }
             }
+            // intersection between player and powered up
             for (PowerUp powerUp : powerUps) {
                 if (playerBox.getBoundsInParent().intersects(powerUp.getPowerUpBox())) {
                     powerUp.removePowerUpFromScene(scene);
@@ -162,6 +163,7 @@ public class PlayerMovement {
     AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long l) {
+            // Stop player from automatically moving after restart
             if (health.getHealth() <= 0) {
                 stop();
                 isDPressed = false;
@@ -170,10 +172,10 @@ public class PlayerMovement {
                 return;
             }
 
+            // monster movement back and forth
             for (Monster monster : monsters) {
                 double x = monster.getMonsterImage().getTranslateX();
                 double y = monster.getMonsterImage().getTranslateY();
-
                 if (monsterMovingRight && x >= monsterEndX) {
                     monsterMovingRight = false;
                 } else if (!monsterMovingRight && x <= monsterStartX) {
@@ -186,15 +188,15 @@ public class PlayerMovement {
                 } else {
                     x -= monster.getMonsterSpeed();
                 }
-
                 monster.getMonsterImage().setTranslateX(x);
                 monster.getMonsterImage().setTranslateY(y);
-
+                // powered up player intersects with monster
                 if (PowerUp.poweredUp) {
                     if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
                         monster.removeFromScene(scene);
                     }
                 } else {
+                    // player collision with monster
                     if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
                         boolean playerIsRightOfMonster = player.getBoundsInParent().getCenterX() > monster.getMonsterImage().getBoundsInParent().getCenterX();
                         int direction = !playerIsRightOfMonster ? -1 : 1;

@@ -12,9 +12,7 @@ import java.util.ArrayList;
 
 
 public class PowerUp {
-    private int duration = 10;
-    private double sizeIncrease = 2;
-
+    private int duration = 5;
     private ImageView powerUpImage;
     private boolean powerUpIsGone = false;
 
@@ -27,6 +25,7 @@ public class PowerUp {
         return powerUpImage;
     }
 
+    //Bounding box of power up item
     public Bounds getPowerUpBox() {
         if (!powerUpIsGone) {
             return powerUpImage.getBoundsInParent();
@@ -35,12 +34,14 @@ public class PowerUp {
         }
     }
 
+    // Remove power up item
     public void removePowerUpFromScene(Pane pane) {
         pane.getChildren().remove(powerUpImage);
         powerUpIsGone = true;
         poweredUp = true;
     }
 
+    // Player is powered up
     public void powerUp(ImageView player, Rectangle playerBox) {
         player.setScaleX(player.getScaleX() * 1.2);
         player.setScaleY(player.getScaleY() * 1.2);
