@@ -9,8 +9,10 @@ import javafx.scene.shape.Rectangle;
 public class Camera {
     @FXML
     private AnchorPane scene;
+    // Health bar container
     @FXML
     private VBox healthBarVBox;
+    // Player's collision box
     private Rectangle playerBox;
     private double cameraWidth;
     private double cameraHeight;
@@ -45,12 +47,5 @@ public class Camera {
                 healthBarVBox.setTranslateY(playerBox.getTranslateY() - cameraHeight / 2);
             }
         });
-    }
-
-    public void resetCamera() {
-        scene.setLayoutX(0);
-        scene.setLayoutY(0);
-        healthBarVBox.setTranslateX(0);
-        healthBarVBox.setTranslateY(0);
     }
 }
