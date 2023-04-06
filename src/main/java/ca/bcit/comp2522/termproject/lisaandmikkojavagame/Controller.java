@@ -9,23 +9,23 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+    static final int PLAYER_HEIGHT = 60;
+    static final int PLAYER_WIDTH = 32;
+    // Container for health bar.
     @FXML
     private VBox healthBarVBox;
     @FXML
     private AnchorPane scene;
+    // Image of player.
     @FXML
     private ImageView player;
+    // To update screen camera.
     private Camera camera;
-    private PlayerMovement playerMovement = new PlayerMovement();
-    private PlayerGun playerGun =  new PlayerGun();
-    private Level level1;
-    private Level level2;
-    private Level level3;
-
+    private PlayerMovement playerMovement;
+    private PlayerGun playerGun;
     private PlayerHealth health;
     @FXML
     private ProgressBar healthBar;
@@ -46,7 +46,6 @@ public class Controller implements Initializable {
         level.addPlatform(1160, -150, 120, 60, Color.DARKGRAY);
         level.addPlatform(1260, -300, 120, 60, Color.DARKGRAY);
         level.addPlatform(1360, -450, 120, 60, Color.DARKGRAY);
-        level.setNextLevel(level1);
         level.placeGoal(760, 400);
         level.addMonster(MonsterType.MONSTER1, 1050, 398);
         level.addPowerUp(1000, 300);
@@ -54,6 +53,7 @@ public class Controller implements Initializable {
     }
 
     private Level createLevel1() {
+        // make new level object
         Level level = new Level(3200, 1600, 50, 100);
         // player
         level.placePlayer(PLAYER_WIDTH, PLAYER_HEIGHT);
@@ -67,32 +67,45 @@ public class Controller implements Initializable {
         level.addPlatform(1000, 600, 200, 100, Color.DARKGRAY);
         level.addPlatform(1350, 460, 200, 100, Color.DARKGRAY);
         level.addPlatform(1700, 460, 200, 100, Color.DARKGRAY);
-        level.addPlatform(2050, 300, 200, 100, Color.DARKGRAY);
-        level.addPlatform(2400, 160, 200, 100, Color.DARKGRAY);
-        level.addPlatform(2750, 0, 250, 100, Color.DARKGRAY);
+        level.addPlatform(2000, 300, 200, 100, Color.DARKGRAY);
+        level.addPlatform(2300, 160, 200, 100, Color.DARKGRAY);
+        level.addPlatform(2650, 0, 350, 100, Color.DARKGRAY);
         level.addPlatform(3000, 0, 200, 800, Color.DARKGRAY);
+        // monsters
+        level.addMonster(MonsterType.MONSTER1, 900, 400);
+        level.addMonster(MonsterType.MONSTER3, 1100, 400);
+        level.addMonster(MonsterType.MONSTER2, 1700, 350);
+        // end goal
         level.placeGoal(3100, -100);
-        level1 = level;
         return level;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        playerMovement = new PlayerMovement();
+        playerGun = new PlayerGun();
         init();
     }
 
     private void init() {
         resetScene();
-        Level level1 = createTestLevel();
-//        Level level1 = createLevel1();
-        level1.fillScene(scene);
+//        Level level = createTestLevel();
+        Level level = createLevel1();
+        // Fill the scene with level's Nodes.
+        level.fillScene(scene);
+        // Set player image to front.
         player.setViewOrder(-1);
-        camera = new Camera(scene, level1.getPlayerBox(), level1.getLevelWidth(), level1.getLevelHeight(),
+        // Initialize the camera of the scene.
+        camera = new Camera(scene, level.getPlayerBox(), level.getLevelWidth(), level.getLevelHeight(),
                 healthBarVBox);
+        // Initialize the player's health.
         health = new PlayerHealth(healthBar);
-        playerMovement.makeMovable(player, scene, level1.getPlayerBox(), level1.getPlatforms(), level1.getMonsters(),
-                level1.getPowerUps(), health, level1.getStartX(), level1.getStartY(), camera);
-        playerGun.makeGun(scene, player, level1.getPlatforms(), level1.getMonsters(), level1.getLevelWidth());
+        // Setup player movement.
+        playerMovement.makeMovable(player, scene, level.getPlayerBox(), level.getPlatforms(), level.getMonsters(),
+                level.getPowerUps(), health, level.getStartX(), level.getStartY(), camera);
+        // Setup player gun.
+        playerGun.makeGun(scene, player, level.getPlatforms(), level.getMonsters(), level.getLevelWidth());
+        // Start restart checker.
         restartTimer.start();
     }
 
@@ -113,12 +126,7 @@ public class Controller implements Initializable {
         public void handle(long l) {
             if (health.needsRestart()) {
                 init();
-                return;
             }
         }
     };
-
-    static final int PLAYER_HEIGHT = 60;
-    static final int PLAYER_WIDTH = 32;
-
 }
