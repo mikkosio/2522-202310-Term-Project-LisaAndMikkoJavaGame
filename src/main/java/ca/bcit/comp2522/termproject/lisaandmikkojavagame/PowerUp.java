@@ -43,6 +43,7 @@ public class PowerUp {
 
     // Player is powered up
     public void powerUp(ImageView player, Rectangle playerBox) {
+        playerBox.setTranslateY(playerBox.getTranslateY() - 20);
         player.setScaleX(player.getScaleX() * 1.2);
         player.setScaleY(player.getScaleY() * 1.2);
         playerBox.setWidth(Controller.PLAYER_WIDTH*1.1);
