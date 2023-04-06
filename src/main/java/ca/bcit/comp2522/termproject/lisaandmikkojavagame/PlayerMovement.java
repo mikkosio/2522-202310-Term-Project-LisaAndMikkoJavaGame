@@ -105,7 +105,12 @@ public class PlayerMovement {
         for (int i = 0; i < Math.abs(power); i++) {
             // reset player, if they fall off map.
             if (playerBox.getTranslateY() + playerBox.getHeight() > 1000) {
+                // reset keys
+                isAPressed = false;
+                isDPressed = false;
+                // reset level
                 health.updateHealthBar(0);
+                // stop movement
                 timer.stop();
                 return;
             }
