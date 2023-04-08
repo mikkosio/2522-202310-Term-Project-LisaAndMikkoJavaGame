@@ -1,25 +1,37 @@
 package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 
-import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Updating camera view of the player.
+ *
+ * @author Mikko Sio
+ * @author Lisa Jung
+ * @version April 6, 2023
+ */
 public class Camera {
+    // Scene for game.
     @FXML
     private AnchorPane scene;
-    // Health bar container
+    // Health bar container.
     @FXML
     private VBox healthBarVBox;
-    // Player's collision box
+    // Player's collision box.
     private Rectangle playerBox;
+    // How wide the player can see.
     private double cameraWidth;
+    // How high the player can see.
     private double cameraHeight;
+    // How wide the level is.
     private int levelWidth;
+    // How high the level is.
     private int levelHeight;
 
-    public Camera(AnchorPane scene, Rectangle playerBox, int levelWidth, int levelHeight, VBox healthBarVBox) {
+    public Camera(final AnchorPane scene, final Rectangle playerBox, final int levelWidth, final int levelHeight,
+                  final VBox healthBarVBox) {
         this.scene = scene;
         this.playerBox = playerBox;
         this.cameraWidth = scene.getPrefWidth();
@@ -31,6 +43,7 @@ public class Camera {
         setupCamera();
     }
 
+    // Updating the camera according to player's movement.
     private void setupCamera() {
         // Move camera horizontally.
         playerBox.translateXProperty().addListener((observable, oldValue, newValue) -> {

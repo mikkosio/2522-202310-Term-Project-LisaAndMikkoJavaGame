@@ -11,26 +11,43 @@ import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller.
+ *
+ * @author Mikko Sio
+ * @author Lisa Jung
+ * @version April 6, 2023
+ */
 public class Controller implements Initializable {
+    /**
+     * Default height of player.
+     */
     static final int PLAYER_HEIGHT = 60;
+    /**
+     * Default width of player.
+     */
     static final int PLAYER_WIDTH = 32;
-    // Container for health bar.
-    @FXML
-    private VBox healthBarVBox;
+    // Scene for the game.
     @FXML
     private AnchorPane scene;
     // Image of player.
     @FXML
     private ImageView player;
-    // To update screen camera.
-    private Camera camera;
-    private PlayerMovement playerMovement;
-    private PlayerGun playerGun;
-    private PlayerHealth health;
+    // Container for health bar.
+    @FXML
+    private VBox healthBarVBox;
+    // Progress bar of the health.
     @FXML
     private ProgressBar healthBar;
-
-
+    // Health of player.
+    private PlayerHealth health;
+    // For updating camera movement.
+    private Camera camera;
+    // For updating player's movement.
+    private PlayerMovement playerMovement;
+    // For shooting bullets.
+    private PlayerGun playerGun;
+    // Creating a level manually. Testing Level.
     private Level createTestLevel() {
         Level level = new Level(3200, 1600, 0, 400);
         // Place player
@@ -46,12 +63,16 @@ public class Controller implements Initializable {
         level.addPlatform(1160, -150, 120, 60, Color.DARKGRAY);
         level.addPlatform(1260, -300, 120, 60, Color.DARKGRAY);
         level.addPlatform(1360, -450, 120, 60, Color.DARKGRAY);
+        // Place portal
         level.placeGoal(760, 400);
+        // Place monster
         level.addMonster(MonsterType.MONSTER1, 1050, 398);
+        // Place power up
         level.addPowerUp(1000, 300);
         return level;
     }
 
+    // Create a level manually. Level 1.
     private Level createLevel1() {
         // make new level object
         Level level = new Level(3200, 1600, 50, 100);
@@ -125,7 +146,8 @@ public class Controller implements Initializable {
         healthBar.setProgress(100);
     }
 
-    AnimationTimer restartTimer = new AnimationTimer() {
+    // Timer to track if level needs restarting.
+    private AnimationTimer restartTimer = new AnimationTimer() {
         @Override
         public void handle(long l) {
             if (health.needsRestart()) {

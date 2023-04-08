@@ -10,23 +10,45 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
 import java.util.Optional;
 
 
+/**
+ * Level.
+ *
+ * @author Mikko Sio
+ * @author Lisa Jung
+ * @version April 6, 2023
+ */
 public class Level {
+    // List of platforms in the level.
     private ArrayList<Node> platforms;
-    private Rectangle playerBox;
+    // List of monsters in the level.
     private ArrayList<Monster> monsters;
+    // List of power-ups in the level.
     private ArrayList<PowerUp> powerUps;
-    private int levelWidth;
-    private int levelHeight;
+    // Player's collision box.
+    private Rectangle playerBox;
+    // End portal of the level.
     private ImageView portal;
+    // How wide level is.
+    private final int levelWidth;
+    // How high level is.
+    private final int levelHeight;
+    // Starting xCoordinate of the player.
     private int startX;
+    // Starting yCoordinate of the player.
     private int startY;
 
-    Level(int levelWidth, int levelHeight, int startX, int startY) {
+    /**
+     * Constructor for Level class.
+     * @param levelWidth Width of the level.
+     * @param levelHeight Height of the level.
+     * @param startX Player's initial xCoordinate.
+     * @param startY Player's initial yCoordinate.
+     */
+    public Level(final int levelWidth, final int levelHeight, final int startX, final int startY) {
         platforms = new ArrayList<>();
         monsters = new ArrayList<>();
         powerUps = new ArrayList<>();
@@ -36,7 +58,7 @@ public class Level {
         this.startY = startY;
     }
 
-    // Checks if player has reached portal.
+    // Timer to track if the level has been completed.
     private AnimationTimer checkCompletion = new AnimationTimer() {
         @Override
         public void handle(long l) {
@@ -47,7 +69,7 @@ public class Level {
         }
     };
 
-    // popup for completion of the game
+    // Popup message for completion of the game.
     private void winPopup() {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -61,28 +83,55 @@ public class Level {
         });
     }
 
+    /**
+     * Getter for level width.
+     * @return Width of the level.
+     */
     public int getLevelWidth() {
         return levelWidth;
     }
 
+    /**
+     * Getter for level height.
+     * @return Height of the level.
+     */
     public int getLevelHeight() {
         return levelHeight;
     }
 
-    // Add platform
-    public void addPlatform(int xCoordinate, int yCoordinate, int width, int height, Color color) {
+    /**
+     * Add a platform to the level.
+     * @param xCoordinate xCoordinate of the platform.
+     * @param yCoordinate yCoordinate of the platform.
+     * @param width Width of the platform.
+     * @param height Height of the platform.
+     * @param color Color of the platform.
+     */
+    public void addPlatform(final int xCoordinate, final int yCoordinate, final int width, final int height,
+                            final Color color) {
+        // Create platform.
         Rectangle platform = new Rectangle(width, height, color);
         platform.setTranslateX(xCoordinate);
         platform.setTranslateY(yCoordinate);
         platform.setStroke(Color.BLACK);
+        // Add platform to platforms list of level.
         platforms.add(platform);
     }
 
+    /**
+     * Getter for platforms ArrayList.
+     * @return List of platforms in the level.
+     */
     public ArrayList<Node> getPlatforms() {
         return platforms;
     }
 
-    // Add monster
+    /**
+     * Add a monster to the level.
+     * @param monsterType Type of monster.
+     * @param xCoordinate xCoordinate of monster.
+     * @param yCoordinate yCoordinate of monster.
+     */
     public void addMonster(MonsterType monsterType, int xCoordinate, int yCoordinate) {
         Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/monster1.png"));
         ImageView monsterImage = new ImageView(image);
