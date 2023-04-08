@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -133,31 +134,28 @@ public class Level {
      * @param yCoordinate yCoordinate of monster.
      */
     public void addMonster(MonsterType monsterType, int xCoordinate, int yCoordinate) {
-        Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/monster1.png"));
-        ImageView monsterImage = new ImageView(image);
-        Monster monster = new Monster(monsterImage, MonsterType.MONSTER1, 0.50);
-        monster.getMonsterImage().setLayoutX(xCoordinate);
-        monster.getMonsterImage().setLayoutY(yCoordinate);
-        monster.getMonsterImage().setFitHeight(50);
-        monster.getMonsterImage().setFitWidth(50);
-        monsters.add(monster);
-    }
-
-    public void addMonster2(MonsterType monsterType, int xCoordinate, int yCoordinate) {
-        Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/monster2.png"));
-        ImageView monsterImage = new ImageView(image);
-        Monster monster = new Monster(monsterImage, MonsterType.MONSTER2, 0.70);
-        monster.getMonsterImage().setLayoutX(xCoordinate);
-        monster.getMonsterImage().setLayoutY(yCoordinate);
-        monster.getMonsterImage().setFitHeight(50);
-        monster.getMonsterImage().setFitWidth(50);
-        monsters.add(monster);
-    }
-
-    public void addMonster3(MonsterType monsterType, int xCoordinate, int yCoordinate) {
-        Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/monster3.png"));
-        ImageView monsterImage = new ImageView(image);
-        Monster monster = new Monster(monsterImage, MonsterType.MONSTER3, 0.70);
+        Image image;
+        ImageView monsterImage;
+        Monster monster;
+        switch (monsterType) {
+            case MONSTER2:
+                image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ca/bcit/comp2522/"
+                        + "termproject/lisaandmikkojavagame/monster2.png")));
+                monsterImage = new ImageView(image);
+                monster = new Monster(monsterImage, MonsterType.MONSTER2, 0.70);
+                break;
+            case MONSTER3:
+                image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ca/bcit/comp2522/"
+                        + "termproject/lisaandmikkojavagame/monster3.png")));
+                monsterImage = new ImageView(image);
+                monster = new Monster(monsterImage, MonsterType.MONSTER3, 0.70);
+                break;
+            default:
+                image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ca/bcit/comp2522/"
+                        + "termproject/lisaandmikkojavagame/monster1.png")));
+                monsterImage = new ImageView(image);
+                monster = new Monster(monsterImage, MonsterType.MONSTER1, 0.50);
+        }
         monster.getMonsterImage().setLayoutX(xCoordinate);
         monster.getMonsterImage().setLayoutY(yCoordinate);
         monster.getMonsterImage().setFitHeight(50);
