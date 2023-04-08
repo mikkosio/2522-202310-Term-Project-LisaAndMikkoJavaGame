@@ -106,8 +106,6 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        playerMovement = new PlayerMovement();
-        playerGun = new PlayerGun();
         init();
     }
 
@@ -125,10 +123,10 @@ public class Controller implements Initializable {
         // Initialize the player's health.
         health = new PlayerHealth(healthBar);
         // Setup player movement.
-        playerMovement.makeMovable(player, scene, level.getPlayerBox(), level.getPlatforms(), level.getMonsters(),
-                level.getPowerUps(), health, level.getStartX(), level.getStartY(), camera);
+        playerMovement = new PlayerMovement(player, scene, level.getPlayerBox(), level.getPlatforms(),
+                level.getMonsters(), level.getPowerUps(), health);
         // Setup player gun.
-        playerGun.makeGun(scene, player, level.getPlatforms(), level.getMonsters(), level.getLevelWidth());
+        playerGun = new PlayerGun(scene, player, level);
         // Start restart checker.
         restartTimer.start();
     }

@@ -2,53 +2,74 @@ package ca.bcit.comp2522.termproject.lisaandmikkojavagame;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Screen;
-
 import java.util.ArrayList;
 
+/**
+ * Movement script for player.
+ *
+ * @author Mikko Sio
+ * @author Lisa Jung
+ * @version April 6, 2023
+ */
 public class PlayerMovement {
+    // Boolean for D key status.
     private boolean isDPressed = false;
+    // Boolean for A key status.
     private boolean isAPressed = false;
+    // Boolean for Space key status.
     private boolean isSpaceReleased = true;
+    // Boolean for player direction.
     private boolean lookingRight = true;
+    // Boolean for player's jump status.
     private boolean canJump = true;
+    // Speed of the player.
     private int playerSpeed = 3;
+    // Jump power of the player.
     private int jumpPower = 45;
+    // yVelocity of the player.
     private int yVelocity;
+    // Gravity affecting the player.
     private double gravity = 1;
+    // Maximum gravity affecting the player.
     private int maxGravity = 15;
+    // Scene of the game.
+    @FXML
+    private AnchorPane scene;
     // Image of player
     @FXML
     private ImageView player;
-    // For better collision checking
+    // For better collision checking.
     private Rectangle playerBox;
-    @FXML
-    private AnchorPane scene;
+    // List of platforms in level.
     private ArrayList<Node> platforms;
+    // List of monsters in level.
     private ArrayList<Monster> monsters;
-    private int startX;
-    private int startY;
-    private Camera camera;
+    // List of power-ups in level.
+    private ArrayList<PowerUp> powerUps;
+    // Player's health.
     private PlayerHealth health;
-
     private double monsterStartX = 0;
     private double monsterEndX = 200;
     private boolean monsterMovingRight = true;
-    private ArrayList<PowerUp> powerUps;
 
-//    public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms, ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, PlayerHealth healthBar) {
-    public void makeMovable(ImageView player, AnchorPane scene, Rectangle playerBox, ArrayList<Node> platforms,
-                            ArrayList<Monster> monsters, ArrayList<PowerUp> powerUps, PlayerHealth healthBar,
-                            int startX, int startY, Camera camera) {
+    /**
+     * Constructor for PlayerMovement class.
+     * @param player Image of the player.
+     * @param scene Scene of the game.
+     * @param playerBox Collision box of the player.
+     * @param platforms List of platforms in level.
+     * @param monsters List of monsters in level.
+     * @param powerUps List of power-ups in level.
+     * @param healthBar Health of the player.
+     */
+    public PlayerMovement(final ImageView player, final AnchorPane scene, final Rectangle playerBox,
+                          final ArrayList<Node> platforms, final ArrayList<Monster> monsters,
+                          final ArrayList<PowerUp> powerUps, final PlayerHealth healthBar) {
         this.player = player;
         this.playerBox = playerBox;
         this.scene = scene;
@@ -56,14 +77,15 @@ public class PlayerMovement {
         this.monsters = monsters;
         this.powerUps = powerUps;
         this.health = healthBar;
-//        this.health = new PlayerHealth(healthBar);
-        this.startX = startX;
-        this.startY = startY;
-        this.camera = camera;
         movementSetup();
         timer.start();
     }
 
+    /**
+     * Move player horizontally.
+     * @param power Amount to move.
+     * @param right If player is moving right.
+     */
     public void horizontalMovement(int power, boolean right) {
         // reflect player
         if (player.getScaleX() < 0 && right) {
@@ -75,6 +97,7 @@ public class PlayerMovement {
         }
         // move player
         while (power != 0) {
+            // Check platforms for collision.
             for (Node platform : platforms) {
                 if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
                     if ((right && playerBox.getTranslateX() + playerBox.getWidth() == platform.getTranslateX()
@@ -85,24 +108,29 @@ public class PlayerMovement {
                     }
                 }
             }
-            // intersection between player and powered up
+            // Check power-ups for collision.
             for (PowerUp powerUp : powerUps) {
                 if (playerBox.getBoundsInParent().intersects(powerUp.getPowerUpBox())) {
                     powerUp.removePowerUpFromScene(scene);
                     powerUp.powerUp(player, playerBox);
                 }
             }
+            // Move player by 1 and decrement amount to move.
             playerBox.setTranslateX(playerBox.getTranslateX() + (right ? 1 : -1));
             power--;
         }
     }
 
-
+    /**
+     * Move player vertically.
+     * @param power Amount to move.
+     */
     public void verticalMovement(int power) {
         // If player is falling, disable jumping.
         if (power > 0) {
             canJump = false;
         }
+        // Move player.
         for (int i = 0; i < Math.abs(power); i++) {
             // reset player, if they fall off map.
             if (playerBox.getTranslateY() + playerBox.getHeight() > 1000) {
@@ -118,11 +146,13 @@ public class PlayerMovement {
             // collision check for platforms.
             for (Node platform : platforms) {
                 if (playerBox.getBoundsInParent().intersects(platform.getBoundsInParent())) {
-                    if (playerBox.getTranslateY() == platform.getTranslateY()
-                            + platform.getBoundsInParent().getHeight() - 1) {
+                    // Collision check for jumping.
+                    if (playerBox.getTranslateY() == platform.getTranslateY() + platform.getBoundsInParent().getHeight()
+                            - 1) {
                         playerBox.setTranslateY(playerBox.getTranslateY() + 1);
                         yVelocity = 0;
                         return;
+                    // Collision check for falling.
                     } else if (playerBox.getTranslateY() + playerBox.getHeight() == platform.getTranslateY()
                             && power > 0
                             && playerBox.getTranslateX() != platform.getTranslateX()
@@ -133,16 +163,18 @@ public class PlayerMovement {
                     }
                 }
             }
+            // Collision check for monsters.
             for (Monster monster : monsters) {
                 if (playerBox.getBoundsInParent().intersects(monster.getMonsterBox())) {
-                    //player jump on top of monster
+                    // If player jumps on monster.
                     if (playerBox.getTranslateY() < monster.getMonsterBox().getMinY()) {
+                        // Kill monster.
                         monster.removeFromScene(scene);
                     }
                     return;
                 }
             }
-            // intersection between player and powered up
+            // Collision check for power-ups.
             for (PowerUp powerUp : powerUps) {
                 if (playerBox.getBoundsInParent().intersects(powerUp.getPowerUpBox())) {
                     powerUp.removePowerUpFromScene(scene);
@@ -161,13 +193,16 @@ public class PlayerMovement {
         }
     }
 
+    /**
+     * Update yVelocity according to jump power.
+     */
     public void jump() {
         yVelocity -= jumpPower;
         canJump = false;
     }
 
-
-    AnimationTimer timer = new AnimationTimer() {
+    // Time to track player's movement.
+    private AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long l) {
             // Stop player from automatically moving after restart
@@ -213,23 +248,22 @@ public class PlayerMovement {
                     }
                 }
             }
-
-
-            //player movement
+            // Player gravity.
             if (yVelocity < maxGravity) {
                 yVelocity += gravity;
             }
-
+            // Move player vertically each timer loop.
             verticalMovement(yVelocity);
-
-            // movement
+            // Check if keys are pressed.
             if (isDPressed) {
+                // Move right.
                 horizontalMovement(playerSpeed, true);
             }
             if (isAPressed) {
+                // Move left.
                 horizontalMovement(playerSpeed, false);
             }
-            // updating playerImage position to stay on playerBox
+            // Updating playerImage position to stay on playerBox.
             player.setTranslateY(playerBox.getTranslateY() + 1);
             if (lookingRight) {
                 player.setTranslateX(playerBox.getTranslateX() - 6);
@@ -239,6 +273,7 @@ public class PlayerMovement {
         }
     };
 
+    // Setup for key listener.
     private void movementSetup() {
         scene.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.D) {
@@ -265,5 +300,4 @@ public class PlayerMovement {
             }
         });
     }
-
 }

@@ -133,7 +133,8 @@ public class Level {
      * @param xCoordinate xCoordinate of monster.
      * @param yCoordinate yCoordinate of monster.
      */
-    public void addMonster(MonsterType monsterType, int xCoordinate, int yCoordinate) {
+    public void addMonster(final MonsterType monsterType, final int xCoordinate, final int yCoordinate) {
+        // Setting monster type and image.
         Image image;
         ImageView monsterImage;
         Monster monster;
@@ -156,66 +157,117 @@ public class Level {
                 monsterImage = new ImageView(image);
                 monster = new Monster(monsterImage, MonsterType.MONSTER1, 0.50);
         }
+        // Set monster coordinates.
         monster.getMonsterImage().setLayoutX(xCoordinate);
         monster.getMonsterImage().setLayoutY(yCoordinate);
+        // Set monster size.
         monster.getMonsterImage().setFitHeight(50);
         monster.getMonsterImage().setFitWidth(50);
+        // Add monster to monsters list.
         monsters.add(monster);
     }
 
+    /**
+     * Getter for monsters ArrayList.
+     * @return List of monsters in level.
+     */
     public ArrayList<Monster> getMonsters() {
         return monsters;
     }
 
-    // Add power ups
-    public void addPowerUp(int xCoordinate, int yCoordinate) {
-        Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/icecream.png"));
+    /**
+     * Add power-ups to level.
+     * @param xCoordinate xCoordinate of power-up.
+     * @param yCoordinate yCoordinate of power-up.
+     */
+    public void addPowerUp(final int xCoordinate, final int yCoordinate) {
+        // Set power-up's image.
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ca/bcit/comp2522/"
+                + "termproject/lisaandmikkojavagame/icecream.png")));
         ImageView powerUpImage = new ImageView(image);
         PowerUp powerUp = new PowerUp(powerUpImage);
+        // Set location of power-up.
         powerUp.getPowerUpImage().setLayoutX(xCoordinate);
         powerUp.getPowerUpImage().setLayoutY(yCoordinate);
+        // Set size of power-up.
         powerUp.getPowerUpImage().setFitHeight(25);
         powerUp.getPowerUpImage().setFitWidth(25);
+        // Add power-up to power-ups list.
         powerUps.add(powerUp);
     }
 
+    /**
+     * Getter for power-ups ArrayList
+     * @return List of power-ups in level.
+     */
     public ArrayList<PowerUp> getPowerUps() {
         return powerUps;
     }
 
-    public void placeGoal(int xCoord, int yCoord) {
-        Image image = new Image(getClass().getResourceAsStream("/ca/bcit/comp2522/termproject/lisaandmikkojavagame/portal.png"));
+    /**
+     * Place the end goal of the level.
+     * @param xCoordinate xCoordinate of the portal.
+     * @param yCoordinate yCoordinate of the portal.
+     */
+    public void placeGoal(final int xCoordinate, final int yCoordinate) {
+        // Set the image of the portal.
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ca/bcit/comp2522/"
+                + "termproject/lisaandmikkojavagame/portal.png")));
         ImageView portalImage = new ImageView(image);
-        Portal portal = new Portal(portalImage);
-        portal.getPortalImage().setTranslateX(xCoord);
-        portal.getPortalImage().setTranslateY(yCoord);
-        portal.getPortalImage().setFitWidth(100);
-        portal.getPortalImage().setFitHeight(100);
-        this.portal = portal.getPortalImage();
+        Portal newPortal = new Portal(portalImage);
+        // Set the location of the portal.
+        newPortal.getPortalImage().setTranslateX(xCoordinate);
+        newPortal.getPortalImage().setTranslateY(yCoordinate);
+        // Set the size of the portal.
+        newPortal.getPortalImage().setFitWidth(100);
+        newPortal.getPortalImage().setFitHeight(100);
+        // Update level's portal.
+        portal = newPortal.getPortalImage();
+        // Start timer for checking level completion.
         checkCompletion.start();
     }
 
-    public void placePlayer(int width, int height) {
+    /**
+     * Place player in level.
+     * @param width Width of the player.
+     * @param height Height of the player.
+     */
+    public void placePlayer(final int width, final int height) {
         Rectangle player = new Rectangle(width, height);
         player.setTranslateX(startX);
         player.setTranslateY(startY);
         playerBox = player;
     }
 
+    /**
+     * Getter for player starting xCoordinate.
+     * @return Starting xCoordinate of the player.
+     */
     public int getStartX() {
         return startX;
     }
 
+    /**
+     * Getter for player starting yCoordinate.
+     * @return Starting yCoordinate of the player.
+     */
     public int getStartY() {
         return startY;
     }
 
+    /**
+     * Getter for player's collision box.
+     * @return Player's collision box.
+     */
     public Rectangle getPlayerBox() {
         return playerBox;
     }
 
-    // Add monster, platforms, and powerups to scene
-
+    /**
+     * Add all the elements of the level to the scene.
+     * Displaying them to the scene.
+     * @param scene Scene of the game.
+     */
     public void fillScene(AnchorPane scene) {
         for (Node platform : platforms) {
             scene.getChildren().add(platform);

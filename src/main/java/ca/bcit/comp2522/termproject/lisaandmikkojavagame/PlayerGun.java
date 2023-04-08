@@ -8,24 +8,30 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
 
+/**
+ * Gun of the player.
+ *
+ * @author Mikko Sio
+ * @author Lisa Jung
+ * @version April 6, 2023
+ */
 public class PlayerGun {
     // Image of player.
     @FXML
-    private ImageView playerImage;
+    private final ImageView playerImage;
     // Anchor Pane scene.
     @FXML
-    private AnchorPane scene;
+    private final AnchorPane scene;
     // All platforms in current level.
-    private ArrayList<Node> platforms;
+    private final ArrayList<Node> platforms;
     // All monsters in current level.
-    private ArrayList<Monster> monsters;
+    private final ArrayList<Monster> monsters;
     // Bullets to be used in list.
-    private ArrayList<Node> bullets;
+    private final ArrayList<Node> bullets;
     // Width of level
-    private int levelWidth;
+    private final int levelWidth;
     // Speed of bullet.
     private int bulletSpeed;
     // Cooldown to shoot.
@@ -33,20 +39,25 @@ public class PlayerGun {
     // Max cooldown.
     private int maxCooldown;
 
-    public void makeGun(AnchorPane scene, ImageView playerImage, ArrayList<Node> platforms, ArrayList<Monster> monsters,
-                        int levelWidth) {
+    /**
+     * Constructor for PlayerGun class.
+     * @param scene Scene of the game.
+     * @param playerImage Image of the player.
+     * @param level Current level.
+     */
+    public PlayerGun(final AnchorPane scene, final ImageView playerImage, final Level level) {
         this.playerImage = playerImage;
         this.scene = scene;
-        this.platforms = platforms;
-        this.monsters = monsters;
-        this.levelWidth = levelWidth;
+        this.platforms = level.getPlatforms();
+        this.monsters = level.getMonsters();
+        this.levelWidth = level.getLevelWidth();
         bulletSpeed = 7;
         cooldown = 0;
         maxCooldown = 50;
         bullets = new ArrayList<>();
         // Initialize all bullets to arraylist and add to scene.
         makeBullets();
-        // Listen for mouseclicks
+        // Listen for mouse clicks.
         gunSetup();
         // Start animation to move bullets.
         shootAnimation.start();
@@ -54,10 +65,17 @@ public class PlayerGun {
         cooldownTimer.start();
     }
 
-    public void setCooldown(int cooldown) {
+    /**
+     * Setter for gun's cooldown.
+     * @param cooldown Shooting cooldown.
+     */
+    public void setCooldown(final int cooldown) {
         maxCooldown = cooldown;
     }
 
+    /**
+     * Make the bullets of the gun.
+     */
     private void makeBullets() {
         for (int i = 0; i < 10; i++) {
             Rectangle newBullet = new Rectangle(13, 7, Color.RED);
@@ -65,6 +83,9 @@ public class PlayerGun {
         }
     }
 
+    /**
+     * Setup for listener for clicks.
+     */
     private void gunSetup() {
         scene.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY && cooldown == 0) {
@@ -74,6 +95,9 @@ public class PlayerGun {
         });
     }
 
+    /**
+     * Shoot the gun.
+     */
     public void shootGun() {
         // Check all bullets.
         for (Node bullet : bullets) {
@@ -100,6 +124,11 @@ public class PlayerGun {
         }
     }
 
+    /**
+     * Move the bullets in scene.
+     * @param bullet Bullet to be moved.
+     * @param movingRight If bullet is moving right.
+     */
     public void moveBullet(Node bullet, boolean movingRight) {
         // Check for collision for one power at a time.
         for (int i = 0; i < bulletSpeed; i++) {
@@ -132,6 +161,7 @@ public class PlayerGun {
         }
     }
 
+    // Timer to update shooting cooldown.
     AnimationTimer cooldownTimer = new AnimationTimer() {
         @Override
         public void handle(long l) {
@@ -141,6 +171,7 @@ public class PlayerGun {
         }
     };
 
+    // Timer to check if bullets need to be moved in scene.
     AnimationTimer shootAnimation = new AnimationTimer() {
         @Override
         public void handle(long l) {
