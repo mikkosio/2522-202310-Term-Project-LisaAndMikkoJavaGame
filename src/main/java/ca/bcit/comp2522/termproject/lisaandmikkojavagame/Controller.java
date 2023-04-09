@@ -47,7 +47,11 @@ public class Controller implements Initializable {
     private PlayerMovement playerMovement;
     // For shooting bullets.
     private PlayerGun playerGun;
-    // Creating a level manually. Testing Level.
+
+    /**
+     * Creates the testing level manually.
+     * @return A level in the game.
+     */
     private Level createTestLevel() {
         Level level = new Level(3200, 1600, 0, 400);
         // Place player
@@ -72,7 +76,10 @@ public class Controller implements Initializable {
         return level;
     }
 
-    // Create a level manually. Level 1.
+    /**
+     * Creates Level 1 manually.
+     * @return A level in the game.
+     */
     private Level createLevel1() {
         // make new level object
         Level level = new Level(3200, 1600, 50, 100);
@@ -109,6 +116,9 @@ public class Controller implements Initializable {
         init();
     }
 
+    /**
+     * Helper method to initialize the game.
+     */
     private void init() {
         resetScene();
 //        Level level = createTestLevel();
@@ -131,7 +141,9 @@ public class Controller implements Initializable {
         restartTimer.start();
     }
 
-    // Reset scene for when game is restarted
+    /**
+     * Reset scene for when the game is restarted.
+     */
     private void resetScene() {
         int size = scene.getChildren().size();
         for (int i = 3; i < size; i++) {
@@ -144,7 +156,9 @@ public class Controller implements Initializable {
         healthBar.setProgress(100);
     }
 
-    // Timer to track if level needs restarting.
+    /**
+     * Timer to track if level needs restarting.
+     */
     private AnimationTimer restartTimer = new AnimationTimer() {
         @Override
         public void handle(long l) {

@@ -30,6 +30,14 @@ public class Camera {
     // How high the level is.
     private int levelHeight;
 
+    /**
+     * Constructor for the camera.
+     * @param scene Game scene.
+     * @param playerBox Player's bounding box.
+     * @param levelWidth Width of the game level.
+     * @param levelHeight Height of the game level.
+     * @param healthBarVBox Player's health bar.
+     */
     public Camera(final AnchorPane scene, final Rectangle playerBox, final int levelWidth, final int levelHeight,
                   final VBox healthBarVBox) {
         this.scene = scene;
@@ -43,7 +51,9 @@ public class Camera {
         setupCamera();
     }
 
-    // Updating the camera according to player's movement.
+    /**
+     * Updates camera according to player's movement.
+     */
     private void setupCamera() {
         // Move camera horizontally.
         playerBox.translateXProperty().addListener((observable, oldValue, newValue) -> {
